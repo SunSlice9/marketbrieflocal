@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketBrief — Daily Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0b0d;
+  --bg2: #111318;
+  --bg3: #181b22;
+  --surface: #1e2230;
+  --surface2: #252a3a;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8eaf0;
+  --text2: #8b92a8;
+  --text3: #4a5068;
+  --green: #00e5a0;
+  --green-dim: rgba(0,229,160,0.12);
+  --red: #ff4f6a;
+  --red-dim: rgba(255,79,106,0.12);
+  --amber: #ffb547;
+  --amber-dim: rgba(255,181,71,0.1);
+  --blue: #4d9fff;
+  --blue-dim: rgba(77,159,255,0.1);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.1);
+  --accent: #00e5a0;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* TOP NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,11,13,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-logo span {
+  color: var(--accent);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.05em;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s ease-in-out infinite;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.refresh-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.refresh-btn:hover { background: var(--surface); color: var(--text); border-color: var(--border2); }
+.refresh-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.refresh-btn svg { transition: transform 0.4s; }
+.refresh-btn.spinning svg { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* LAYOUT */
+.layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* HERO TICKER STRIP */
+.ticker-strip {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.ticker-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.ticker-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text2);
+  border: 1px solid var(--border);
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+  cursor: default;
+}
+.ticker-chip:hover { background: var(--surface2); color: var(--text); border-color: var(--border2); }
+
+/* TABS */
+.tab-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 1.5rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 5px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 8px 18px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--text2); background: var(--surface); }
+.tab-btn.active {
+  background: var(--surface2);
+  color: var(--accent);
+  border: 1px solid rgba(0,229,160,0.2);
+}
+
+/* CONTENT AREA */
+#content-area {
+  min-height: 500px;
+}
+
+/* LOADING */
+.loading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 0;
+  gap: 1.5rem;
+}
+
+.loading-ring {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+.loading-msg {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text3);
+  letter-spacing: 0.06em;
+  animation: fade 1.5s ease-in-out infinite;
+}
+
+@keyframes fade { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* SECTION CARDS */
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.section-grid.two-col { grid-template-columns: 1fr 1fr; }
+.section-grid.three-col { grid-template-columns: repeat(3, 1fr); }
+.section-grid.solo { grid-template-columns: 1fr; }
+
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.35s ease forwards;
+  opacity: 0;
+}
+.card:nth-child(1) { animation-delay: 0s; }
+.card:nth-child(2) { animation-delay: 0.06s; }
+.card:nth-child(3) { animation-delay: 0.12s; }
+.card:nth-child(4) { animation-delay: 0.18s; }
+.card:nth-child(5) { animation-delay: 0.24s; }
+.card:nth-child(6) { animation-delay: 0.3s; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent-line, transparent);
+}
+
+.card.green-accent { --accent-line: var(--green); }
+.card.red-accent { --accent-line: var(--red); }
+.card.amber-accent { --accent-line: var(--amber); }
+.card.blue-accent { --accent-line: var(--blue); }
+.card.purple-accent { --accent-line: var(--purple); }
+
+.card-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-label .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.dot-green { background: var(--green); }
+.dot-red { background: var(--red); }
+.dot-amber { background: var(--amber); }
+.dot-blue { background: var(--blue); }
+.dot-purple { background: var(--purple); }
+
+.card-content {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+
+/* STAT ROW */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  animation: slideIn 0.35s ease forwards;
+  opacity: 0;
+}
+.stat-card:nth-child(1) { animation-delay: 0s; }
+.stat-card:nth-child(2) { animation-delay: 0.04s; }
+.stat-card:nth-child(3) { animation-delay: 0.08s; }
+.stat-card:nth-child(4) { animation-delay: 0.12s; }
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.stat-value.up { color: var(--green); }
+.stat-value.dn { color: var(--red); }
+.stat-value.neutral { color: var(--text); }
+
+.stat-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+/* TICKER TABLE */
+.ticker-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+.ticker-table th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.ticker-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  vertical-align: top;
+}
+.ticker-table tr:last-child td { border-bottom: none; }
+.ticker-table tr:hover td { background: var(--surface); }
+
+.ticker-sym {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.04em;
+}
+.ticker-note { color: var(--text2); line-height: 1.6; }
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+  margin-left: 6px;
+}
+.badge-up { background: var(--green-dim); color: var(--green); }
+.badge-dn { background: var(--red-dim); color: var(--red); }
+.badge-watch { background: var(--amber-dim); color: var(--amber); }
+.badge-new { background: var(--blue-dim); color: var(--blue); }
+
+/* RISK RADAR */
+.risk-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.risk-item:last-child { border-bottom: none; }
+.risk-level {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.risk-high { background: var(--red-dim); color: var(--red); }
+.risk-med { background: var(--amber-dim); color: var(--amber); }
+.risk-low { background: var(--green-dim); color: var(--green); }
+.risk-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.risk-title { font-weight: 500; color: var(--text); font-family: var(--font-display); font-size: 14px; margin-bottom: 2px; }
+
+/* TREND PILLS */
+.trend-list { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
+.trend-item { display: flex; gap: 12px; align-items: flex-start; }
+.trend-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.trend-icon.ai { background: var(--purple-dim); }
+.trend-icon.space { background: var(--blue-dim); }
+.trend-icon.quantum { background: rgba(0,229,160,0.1); }
+.trend-icon.health { background: var(--red-dim); }
+.trend-icon.fintech { background: var(--amber-dim); }
+.trend-icon.semi { background: rgba(77,159,255,0.15); }
+.trend-body { flex: 1; }
+.trend-name { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.trend-desc { font-size: 12.5px; color: var(--text2); line-height: 1.6; }
+.trend-tickers { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px; }
+.trend-ticker { font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 3px; background: var(--surface); color: var(--text2); border: 1px solid var(--border); }
+
+/* BOTTOM ACTIONS */
+.bottom-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.action-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.action-btn:hover { background: var(--surface); color: var(--accent); border-color: rgba(0,229,160,0.3); }
+.action-btn .arr { font-size: 11px; }
+
+/* ERROR */
+.error-card {
+  background: var(--red-dim);
+  border: 1px solid rgba(255,79,106,0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: var(--red);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ANALYST CARD */
+.analyst-card {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--bg3) 100%);
+  border: 1px solid rgba(0,229,160,0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.5s 0.3s ease forwards;
+  opacity: 0;
+}
+.analyst-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0,229,160,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.footer-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.04em;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .section-grid.two-col, .section-grid.three-col { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  nav { padding: 0 1rem; }
+  .layout { padding: 1rem 1rem 3rem; }
+}
+@media (max-width: 600px) {
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .tab-btn { font-size: 11px; padding: 7px 12px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    Market<span>Brief</span>
+    <span style="font-family:var(--font-mono);font-size:10px;color:var(--text3);font-weight:400;letter-spacing:0.06em;margin-left:4px;">DAILY INTELLIGENCE</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-date" id="nav-date"></span>
+    <span style="font-size:12px;color:var(--text3);display:flex;align-items:center;"><span class="live-dot"></span>LIVE</span>
+    <button class="refresh-btn" id="main-refresh-btn" onclick="loadSection(currentSection)">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13.65 2.35A8 8 0 1 0 15 8h-2a6 6 0 1 1-1.76-4.24L8 7h7V0l-1.35 2.35z" fill="currentColor"/></svg>
+      REFRESH
+    </button>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <div class="ticker-strip">
+    <span class="ticker-label">WATCHLIST</span>
+    <span id="ticker-chips"></span>
+  </div>
+
+  <div class="tab-row">
+    <button class="tab-btn active" data-tab="full" onclick="switchTab('full',this)">Full Briefing</button>
+    <button class="tab-btn" data-tab="watchlist" onclick="switchTab('watchlist',this)">Watchlist</button>
+    <button class="tab-btn" data-tab="macro" onclick="switchTab('macro',this)">Macro</button>
+    <button class="tab-btn" data-tab="trends" onclick="switchTab('trends',this)">Emerging Trends</button>
+    <button class="tab-btn" data-tab="risk" onclick="switchTab('risk',this)">Risk Radar</button>
+  </div>
+
+  <div id="content-area">
+    <div class="loading-wrap">
+      <div class="loading-ring"></div>
+      <div class="loading-msg" id="loading-msg">Fetching today's market data...</div>
+    </div>
+  </div>
+
+  <div class="bottom-actions" id="bottom-actions" style="display:none;">
+    <button class="action-btn" onclick="sendToChat('Deep dive: NVDA, AMD, ASML, TSM semiconductor thesis for Q2 2026')">Semis deep dive <span class="arr">↗</span></button>
+    <button class="action-btn" onclick="sendToChat('Risk/reward ranking for my top 10 holdings right now — be direct and opinionated')">Portfolio ranking <span class="arr">↗</span></button>
+    <button class="action-btn" onclick="sendToChat('Geopolitical scenario analysis: how does the Iran conflict resolve and what does it mean for energy, defense, and tech stocks?')">Iran scenario <span class="arr">↗</span></button>
+    <button class="action-btn" onclick="sendToChat('Best hedge strategies for this watchlist given current macro environment')">Hedge strategies <span class="arr">↗</span></button>
+    <button class="action-btn" onclick="sendToChat('Which ETFs should I add alongside VTI, VOO, QQQ for better diversification and growth exposure?')">ETF suggestions <span class="arr">↗</span></button>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-text">MARKETBRIEF &mdash; AI-POWERED DAILY INTELLIGENCE &mdash; NOT FINANCIAL ADVICE</span>
+  <span class="footer-text" id="footer-time"></span>
+</footer>
+
+<script>
+const WATCHLIST = ['SOFI','CRWD','GOOGL','TSM','AMD','MELI','ISRG','GRAB','BABA','VOO','NVDA','ANET','SCHG','NFLX','ASML','RKLB','NVO','UPS','DOCS','DNA','CYPH','VTI','CPNG','CART','SHOP','QQQ','TQQQ','XPEV','QBTS','MBLY','MOD'];
+
+let currentSection = 'full';
+let cache = {};
+
+const LOADING_MSGS = {
+  full: ['Scanning global markets...','Fetching watchlist catalysts...','Synthesizing macro outlook...','Compiling analyst take...'],
+  watchlist: ['Scanning 31 tickers...','Identifying movers...','Checking earnings calendar...'],
+  macro: ['Pulling Fed data...','Checking yield curves...','Analyzing global forces...'],
+  trends: ['Identifying emerging themes...','Scanning sector momentum...','Mapping industry disruptions...'],
+  risk: ['Scanning risk signals...','Checking geopolitical data...','Building radar...']
+};
+
+const PROMPTS = {
+full: `You are an elite buy-side financial analyst delivering a structured daily morning market briefing. Today is ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}. Use web search to pull CURRENT data before responding.
+
+Search for: today's index levels & futures (S&P 500, NASDAQ, Dow, Russell 2000), pre-market movers from this watchlist: SOFI, CRWD, GOOGL, TSM, AMD, MELI, ISRG, GRAB, BABA, VOO, NVDA, ANET, SCHG, NFLX, ASML, RKLB, NVO, UPS, DOCS, DNA, CYPH, VTI, CPNG, CART, SHOP, QQQ, TQQQ, XPEV, QBTS, MBLY, MOD, current macro news, oil prices, Fed commentary, geopolitical developments (US-Iran conflict, Middle East), earnings movers.
+
+Structure your response EXACTLY with these headers (use all caps and exact text as shown):
+
+MARKET PULSE
+[2-3 sentences on index direction, risk sentiment, and the dominant narrative driving markets today — reference real data]
+
+WATCHLIST HIGHLIGHTS
+[Go through the most relevant tickers from the watchlist. For each one with news or notable movement, write: TICKER — 1-2 sharp sentences with the key catalyst or price action. Cover 10+ tickers. Be specific.]
+
+SUGGESTED ADDITIONS
+[3 tickers/ETFs NOT currently on the watchlist that look compelling today — name them, give a 1-sentence thesis each. Consider defense, energy, nuclear, biotech, international plays.]
+
+EMERGING INDUSTRY TRENDS
+[3 trends shaping markets right now. For each: name the trend, what's driving it today, key watchlist exposure, and under-the-radar angle. 2-3 sentences each.]
+
+DOWNTURN RISK RADAR
+[Top 4 specific risks to monitor. Be concrete — name the exact catalyst, not vague warnings. Rate each: HIGH/MED/LOW.]
+
+MACRO FACTORS TO WATCH
+[This week's key data releases, Fed speakers, earnings still to report, and 2 structural forces dominating the longer-term picture.]
+
+ANALYST TAKE
+[Your synthesis — 2 paragraphs. Risk-on or risk-off day? Where is the asymmetric opportunity in this specific watchlist? What would you buy, what would you trim? Be direct and opinionated.]
+
+Write like a seasoned PM briefing a tiger fund. Specific, data-driven, opinionated. No disclaimers.`,
+
+watchlist: `You are a financial analyst specializing in equities. Today is ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}. Use web search to get current data.
+
+Search for today's price action, news, and catalysts for this watchlist: SOFI, CRWD, GOOGL, TSM, AMD, MELI, ISRG, GRAB, BABA, VOO, NVDA, ANET, SCHG, NFLX, ASML, RKLB, NVO, UPS, DOCS, DNA, CYPH, VTI, CPNG, CART, SHOP, QQQ, TQQQ, XPEV, QBTS, MBLY, MOD.
+
+Structure your response EXACTLY with these headers:
+
+MOVERS AND SHAKERS
+[Tickers with significant price action today — what happened and why. Format: TICKER — detail]
+
+CATALYST WATCH
+[Tickers with upcoming catalysts — earnings, product launches, regulatory events. Format: TICKER — catalyst and timing]
+
+QUIET BUT NOTABLE
+[Tickers with no big news but worth monitoring — structural setup, positioning, sector tailwind/headwind]
+
+ADDITIONS TO CONSIDER
+[3 specific tickers to add to the watchlist this week — give ticker, thesis, and risk in 1-2 sentences each]
+
+Be concise and specific. Skip tickers with truly nothing to say.`,
+
+macro: `You are a macro strategist at a top hedge fund. Today is ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}. Use web search to get the latest data on Fed policy, inflation, yields, geopolitics, and global macro.
+
+Search for: current Fed funds rate, latest inflation data (CPI/PCE), jobs market, 10Y Treasury yield, oil prices, US-Iran conflict status, China economic data, dollar index.
+
+Structure your response EXACTLY with these headers:
+
+FED AND RATES
+[Current rate environment, latest Fed commentary, market expectations for next move, Jerome Powell's term expiration on May 15 2026 and leadership transition risk]
+
+INFLATION AND GROWTH
+[Where CPI and PCE stand right now, trajectory, stagflation risk, GDP outlook, real wage growth]
+
+GLOBAL FORCES
+[Middle East/Iran conflict impact on oil and markets, China macro, EM exposure, dollar dynamics]
+
+YIELD CURVE AND CREDIT
+[10Y yield, curve shape, credit spreads, any stress signals]
+
+THIS WEEKS CALENDAR
+[Key economic data releases this week, Fed speakers, major earnings still pending]
+
+MACRO BOTTOM LINE
+[2 paragraphs: in plain English, what does this macro environment mean for equities and specifically for a portfolio heavy in tech, fintech, AI, and emerging markets? What's the single biggest macro variable to watch?]`,
+
+trends: `You are an emerging trends analyst covering financial markets and disruptive technology. Today is ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}. Use web search extensively to identify what's moving right now.
+
+Search for latest developments in: AI infrastructure and capex, quantum computing, space economy, autonomous vehicles, GLP-1/obesity drugs, fintech disruption, cybersecurity, robotics/physical AI, nuclear energy/power, defense tech, e-commerce EM growth.
+
+Structure your response EXACTLY with these headers:
+
+AI INFRASTRUCTURE
+[Current state of the $690B AI capex boom — hyperscaler spending, monetization question, how NVDA, ANET, GOOGL, CRWD position in this]
+
+SPACE ECONOMY
+[RKLB and the commercial space buildout — launch cadence, satellite internet, space-based AI data centers emerging thesis]
+
+QUANTUM COMPUTING
+[QBTS/D-Wave and pure-play quantum landscape — IonQ milestone, where we actually are vs. hype, near-term catalysts]
+
+AUTONOMOUS AND PHYSICAL AI
+[MBLY, XPEV, robotics — where autonomous driving actually stands in 2026, physical AI adoption]
+
+GLP1 AND HEALTHCARE AI
+[NVO and the GLP-1 wave, ISRG and robotic surgery — what's next in this supercycle]
+
+FINTECH AND EM ECOMMERCE
+[SOFI, MELI, GRAB, CPNG, CART, SHOP — digital financial services and EM consumer growth story, who is winning]
+
+UNDER THE RADAR PLAYS
+[2-3 specific stocks or ETFs NOT on the watchlist that are interesting plays on these emerging themes — name them with a tight 1-sentence thesis each]`,
+
+risk: `You are a risk analyst at a macro hedge fund. Today is ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}. Use web search to identify current specific, concrete risks.
+
+Search for: US-Iran conflict latest, oil price trajectory, Fed leadership transition, tech valuations, NVDA China revenue loss, earnings warnings, credit market stress, geopolitical risks.
+
+Structure your response EXACTLY with these headers:
+
+IMMEDIATE RISKS
+[Top 3 catalysts that could trigger a market pullback in the next 1-2 weeks — be specific, name the exact trigger, rate HIGH/MED/LOW]
+
+SECTOR VULNERABILITIES
+[Which sectors or themes in this portfolio look most exposed right now — semiconductors (China risk), logistics (AMZN threat to UPS), leveraged ETFs (TQQQ), speculative names]
+
+WATCHLIST EXPOSURE
+[Direct analysis of the highest-risk tickers in the watchlist: SOFI, CRWD, GOOGL, TSM, AMD, MELI, ISRG, GRAB, BABA, VOO, NVDA, ANET, SCHG, NFLX, ASML, RKLB, NVO, UPS, DOCS, DNA, CYPH, VTI, CPNG, CART, SHOP, QQQ, TQQQ, XPEV, QBTS, MBLY, MOD — which carry the most downside and why]
+
+TAIL RISKS
+[2-3 low probability but high impact scenarios — be creative and specific. What black swans could hurt this portfolio badly?]
+
+RISK BOTTOM LINE
+[1 paragraph: honest portfolio risk assessment. Where is this portfolio most vulnerable? What would you hedge and how?]`
+};
+
+function initPage() {
+  document.getElementById('nav-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}).toUpperCase();
+  document.getElementById('footer-time').textContent = 'LAST UPDATED: ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  
+  const chips = document.getElementById('ticker-chips');
+  chips.innerHTML = WATCHLIST.map(t => `<span class="ticker-chip">${t}</span>`).join('');
+  
+  loadSection('full');
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  currentSection = tab;
+  if (cache[tab]) renderSection(tab, cache[tab]);
+  else loadSection(tab);
+}
+
+function setLoading(section) {
+  const msgs = LOADING_MSGS[section];
+  let i = 0;
+  document.getElementById('content-area').innerHTML = `<div class="loading-wrap"><div class="loading-ring"></div><div class="loading-msg" id="loading-msg">${msgs[0]}</div></div>`;
+  document.getElementById('bottom-actions').style.display = 'none';
+  const iv = setInterval(() => {
+    i = (i+1) % msgs.length;
+    const el = document.getElementById('loading-msg');
+    if (el) el.textContent = msgs[i]; else clearInterval(iv);
+  }, 2200);
+  return iv;
+}
+
+async function loadSection(section) {
+  const btn = document.getElementById('main-refresh-btn');
+  btn.disabled = true;
+  btn.classList.add('spinning');
+  const iv = setLoading(section);
+  
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: PROMPTS[section] }]
+      })
+    });
+    clearInterval(iv);
+    const data = await res.json();
+    cache[section] = data;
+    renderSection(section, data);
+  } catch(e) {
+    clearInterval(iv);
+    document.getElementById('content-area').innerHTML = `<div class="error-card"><svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11zm-.25-8h.5v4.5h-.5V5zM8 11a.75.75 0 1 1 0-1.5A.75.75 0 0 1 8 11z"/></svg> Could not load briefing. Check your connection and try refreshing.</div>`;
+    document.getElementById('bottom-actions').style.display = 'flex';
+  }
+  btn.disabled = false;
+  btn.classList.remove('spinning');
+  document.getElementById('footer-time').textContent = 'LAST UPDATED: ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+}
+
+function getText(data) {
+  return (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+}
+
+function parseSections(text, headers) {
+  const result = {};
+  let remaining = text;
+  headers.forEach((h, i) => {
+    const nextHeaders = headers.slice(i+1);
+    const pattern = new RegExp(h.key + '\\s*\\n([\\s\\S]*?)(?=' + (nextHeaders.map(n=>n.key).join('|')||'$') + ')', 'i');
+    const m = remaining.match(pattern);
+    if (m) result[h.key] = m[1].trim();
+  });
+  return result;
+}
+
+function card(label, content, accent, dotClass) {
+  return `<div class="card ${accent}">
+    <div class="card-label"><span class="dot ${dotClass}"></span>${label}</div>
+    <div class="card-content">${content}</div>
+  </div>`;
+}
+
+function renderSection(section, data) {
+  const text = getText(data);
+  const el = document.getElementById('content-area');
+  
+  if (!text) {
+    el.innerHTML = `<div class="error-card">No data returned. Please refresh.</div>`;
+    document.getElementById('bottom-actions').style.display = 'flex';
+    return;
+  }
+
+  if (section === 'full') renderFull(text, el);
+  else if (section === 'watchlist') renderWatchlist(text, el);
+  else if (section === 'macro') renderMacro(text, el);
+  else if (section === 'trends') renderTrends(text, el);
+  else if (section === 'risk') renderRisk(text, el);
+  
+  document.getElementById('bottom-actions').style.display = 'flex';
+}
+
+function extractSection(text, header) {
+  const headers = ['MARKET PULSE','WATCHLIST HIGHLIGHTS','SUGGESTED ADDITIONS','EMERGING INDUSTRY TRENDS','DOWNTURN RISK RADAR','MACRO FACTORS TO WATCH','ANALYST TAKE',
+    'MOVERS AND SHAKERS','CATALYST WATCH','QUIET BUT NOTABLE','ADDITIONS TO CONSIDER',
+    'FED AND RATES','INFLATION AND GROWTH','GLOBAL FORCES','YIELD CURVE AND CREDIT','THIS WEEKS CALENDAR','MACRO BOTTOM LINE',
+    'AI INFRASTRUCTURE','SPACE ECONOMY','QUANTUM COMPUTING','AUTONOMOUS AND PHYSICAL AI','GLP1 AND HEALTHCARE AI','FINTECH AND EM ECOMMERCE','UNDER THE RADAR PLAYS',
+    'IMMEDIATE RISKS','SECTOR VULNERABILITIES','WATCHLIST EXPOSURE','TAIL RISKS','RISK BOTTOM LINE'];
+  
+  const idx = headers.indexOf(header);
+  const nextHeaders = headers.slice(idx+1);
+  const escapedHeader = header.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const escapedNext = nextHeaders.map(h => h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const re = new RegExp(escapedHeader + '[:\\s]*\\n([\\s\\S]*?)(?=\\n(?:' + (escapedNext.join('|')||'ZZZNOMATCH') + ')|$)', 'i');
+  const m = text.match(re);
+  return m ? m[1].trim() : '';
+}
+
+function renderFull(text, el) {
+  const pulse = extractSection(text, 'MARKET PULSE');
+  const highlights = extractSection(text, 'WATCHLIST HIGHLIGHTS');
+  const added = extractSection(text, 'SUGGESTED ADDITIONS');
+  const trends = extractSection(text, 'EMERGING INDUSTRY TRENDS');
+  const radar = extractSection(text, 'DOWNTURN RISK RADAR');
+  const mf = extractSection(text, 'MACRO FACTORS TO WATCH');
+  const take = extractSection(text, 'ANALYST TAKE');
+
+  el.innerHTML = `
+  <div class="section-grid two-col" style="margin-bottom:1.5rem;">
+    <div class="card green-accent" style="animation-delay:0s;opacity:0;">
+      <div class="card-label"><span class="dot dot-green"></span>MARKET PULSE — ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>
+      <div class="card-content">${pulse || text.substring(0,400)}</div>
+    </div>
+    <div class="card amber-accent" style="animation-delay:0.06s;opacity:0;">
+      <div class="card-label"><span class="dot dot-amber"></span>MACRO FACTORS TO WATCH</div>
+      <div class="card-content">${mf}</div>
+    </div>
+  </div>
+  <div class="card blue-accent" style="margin-bottom:1.5rem;animation-delay:0.12s;opacity:0;">
+    <div class="card-label"><span class="dot dot-blue"></span>WATCHLIST HIGHLIGHTS</div>
+    <div class="card-content">${highlights}</div>
+  </div>
+  <div class="section-grid three-col" style="margin-bottom:1.5rem;">
+    <div class="card purple-accent" style="animation-delay:0.18s;opacity:0;">
+      <div class="card-label"><span class="dot dot-purple"></span>SUGGESTED ADDITIONS</div>
+      <div class="card-content">${added}</div>
+    </div>
+    <div class="card amber-accent" style="animation-delay:0.24s;opacity:0;">
+      <div class="card-label"><span class="dot dot-amber"></span>EMERGING TRENDS</div>
+      <div class="card-content">${trends}</div>
+    </div>
+    <div class="card red-accent" style="animation-delay:0.3s;opacity:0;">
+      <div class="card-label"><span class="dot dot-red"></span>DOWNTURN RISK RADAR</div>
+      <div class="card-content">${radar}</div>
+    </div>
+  </div>
+  <div class="analyst-card">
+    <div class="card-label" style="margin-bottom:10px;"><span class="dot dot-green"></span>ANALYST TAKE</div>
+    <div class="card-content" style="font-size:14px;line-height:1.85;">${take}</div>
+  </div>`;
+}
+
+function renderWatchlist(text, el) {
+  const movers = extractSection(text, 'MOVERS AND SHAKERS');
+  const catalyst = extractSection(text, 'CATALYST WATCH');
+  const quiet = extractSection(text, 'QUIET BUT NOTABLE');
+  const adds = extractSection(text, 'ADDITIONS TO CONSIDER');
+
+  el.innerHTML = `
+  <div class="section-grid two-col" style="margin-bottom:1.5rem;">
+    <div class="card green-accent" style="animation-delay:0s;opacity:0;">
+      <div class="card-label"><span class="dot dot-green"></span>MOVERS AND SHAKERS</div>
+      <div class="card-content">${movers}</div>
+    </div>
+    <div class="card amber-accent" style="animation-delay:0.06s;opacity:0;">
+      <div class="card-label"><span class="dot dot-amber"></span>CATALYST WATCH</div>
+      <div class="card-content">${catalyst}</div>
+    </div>
+  </div>
+  <div class="section-grid two-col">
+    <div class="card blue-accent" style="animation-delay:0.12s;opacity:0;">
+      <div class="card-label"><span class="dot dot-blue"></span>QUIET BUT NOTABLE</div>
+      <div class="card-content">${quiet}</div>
+    </div>
+    <div class="card purple-accent" style="animation-delay:0.18s;opacity:0;">
+      <div class="card-label"><span class="dot dot-purple"></span>ADDITIONS TO CONSIDER</div>
+      <div class="card-content">${adds}</div>
+    </div>
+  </div>`;
+}
+
+function renderMacro(text, el) {
+  const fed = extractSection(text, 'FED AND RATES');
+  const inf = extractSection(text, 'INFLATION AND GROWTH');
+  const glob = extractSection(text, 'GLOBAL FORCES');
+  const yield_ = extractSection(text, 'YIELD CURVE AND CREDIT');
+  const cal = extractSection(text, 'THIS WEEKS CALENDAR');
+  const bottom = extractSection(text, 'MACRO BOTTOM LINE');
+
+  el.innerHTML = `
+  <div class="section-grid three-col" style="margin-bottom:1.5rem;">
+    <div class="card blue-accent" style="animation-delay:0s;opacity:0;">
+      <div class="card-label"><span class="dot dot-blue"></span>FED AND RATES</div>
+      <div class="card-content">${fed}</div>
+    </div>
+    <div class="card amber-accent" style="animation-delay:0.06s;opacity:0;">
+      <div class="card-label"><span class="dot dot-amber"></span>INFLATION AND GROWTH</div>
+      <div class="card-content">${inf}</div>
+    </div>
+    <div class="card purple-accent" style="animation-delay:0.12s;opacity:0;">
+      <div class="card-label"><span class="dot dot-purple"></span>GLOBAL FORCES</div>
+      <div class="card-content">${glob}</div>
+    </div>
+  </div>
+  <div class="section-grid two-col" style="margin-bottom:1.5rem;">
+    <div class="card red-accent" style="animation-delay:0.18s;opacity:0;">
+      <div class="card-label"><span class="dot dot-red"></span>YIELD CURVE AND CREDIT</div>
+      <div class="card-content">${yield_}</div>
+    </div>
+    <div class="card green-accent" style="animation-delay:0.24s;opacity:0;">
+      <div class="card-label"><span class="dot dot-green"></span>THIS WEEK'S CALENDAR</div>
+      <div class="card-content">${cal}</div>
+    </div>
+  </div>
+  <div class="analyst-card">
+    <div class="card-label" style="margin-bottom:10px;"><span class="dot dot-green"></span>MACRO BOTTOM LINE</div>
+    <div class="card-content" style="font-size:14px;line-height:1.85;">${bottom}</div>
+  </div>`;
+}
+
+function renderTrends(text, el) {
+  const ai = extractSection(text, 'AI INFRASTRUCTURE');
+  const space = extractSection(text, 'SPACE ECONOMY');
+  const q = extractSection(text, 'QUANTUM COMPUTING');
+  const av = extractSection(text, 'AUTONOMOUS AND PHYSICAL AI');
+  const health = extractSection(text, 'GLP1 AND HEALTHCARE AI');
+  const fin = extractSection(text, 'FINTECH AND EM ECOMMERCE');
+  const radar = extractSection(text, 'UNDER THE RADAR PLAYS');
+
+  el.innerHTML = `
+  <div class="section-grid two-col" style="margin-bottom:1.5rem;">
+    <div class="card purple-accent" style="animation-delay:0s;opacity:0;">
+      <div class="card-label"><span class="dot dot-purple"></span>AI INFRASTRUCTURE</div>
+      <div class="card-content">${ai}</div>
+    </div>
+    <div class="card blue-accent" style="animation-delay:0.06s;opacity:0;">
+      <div class="card-label"><span class="dot dot-blue"></span>SPACE ECONOMY</div>
+      <div class="card-content">${space}</div>
+    </div>
+  </div>
+  <div class="section-grid three-col" style="margin-bottom:1.5rem;">
+    <div class="card green-accent" style="animation-delay:0.12s;opacity:0;">
+      <div class="card-label"><span class="dot dot-green"></span>QUANTUM COMPUTING</div>
+      <div class="card-content">${q}</div>
+    </div>
+    <div class="card amber-accent" style="animation-delay:0.18s;opacity:0;">
+      <div class="card-label"><span class="dot dot-amber"></span>AUTONOMOUS AND PHYSICAL AI</div>
+      <div class="card-content">${av}</div>
+    </div>
+    <div class="card red-accent" style="animation-delay:0.24s;opacity:0;">
+      <div class="card-label"><span class="dot dot-red"></span>GLP-1 AND HEALTHCARE AI</div>
+      <div class="card-content">${health}</div>
+    </div>
+  </div>
+  <div class="section-grid two-col">
+    <div class="card blue-accent" style="animation-delay:0.3s;opacity:0;">
+      <div class="card-label"><span class="dot dot-blue"></span>FINTECH AND EM ECOMMERCE</div>
+      <div class="card-content">${fin}</div>
+    </div>
+    <div class="card purple-accent" style="animation-delay:0.36s;opacity:0;">
+      <div class="card-label"><span class="dot dot-purple"></span>UNDER THE RADAR PLAYS</div>
+      <div class="card-content">${radar}</div>
+    </div>
+  </div>`;
+}
+
+function renderRisk(text, el) {
+  const imm = extractSection(text, 'IMMEDIATE RISKS');
+  const sec = extractSection(text, 'SECTOR VULNERABILITIES');
+  const exp = extractSection(text, 'WATCHLIST EXPOSURE');
+  const tail = extractSection(text, 'TAIL RISKS');
+  const bottom = extractSection(text, 'RISK BOTTOM LINE');
+
+  el.innerHTML = `
+  <div class="section-grid two-col" style="margin-bottom:1.5rem;">
+    <div class="card red-accent" style="animation-delay:0s;opacity:0;">
+      <div class="card-label"><span class="dot dot-red"></span>IMMEDIATE RISKS</div>
+      <div class="card-content">${imm}</div>
+    </div>
+    <div class="card amber-accent" style="animation-delay:0.06s;opacity:0;">
+      <div class="card-label"><span class="dot dot-amber"></span>SECTOR VULNERABILITIES</div>
+      <div class="card-content">${sec}</div>
+    </div>
+  </div>
+  <div class="card blue-accent" style="margin-bottom:1.5rem;animation-delay:0.12s;opacity:0;">
+    <div class="card-label"><span class="dot dot-blue"></span>WATCHLIST EXPOSURE ANALYSIS</div>
+    <div class="card-content">${exp}</div>
+  </div>
+  <div class="section-grid two-col" style="margin-bottom:1.5rem;">
+    <div class="card red-accent" style="animation-delay:0.18s;opacity:0;">
+      <div class="card-label"><span class="dot dot-red"></span>TAIL RISKS</div>
+      <div class="card-content">${tail}</div>
+    </div>
+    <div class="analyst-card" style="animation-delay:0.24s;opacity:1;margin-top:0;">
+      <div class="card-label" style="margin-bottom:10px;"><span class="dot dot-green"></span>RISK BOTTOM LINE</div>
+      <div class="card-content" style="font-size:14px;line-height:1.85;">${bottom}</div>
+    </div>
+  </div>`;
+}
+
+function sendToChat(msg) {
+  if (typeof window.sendPrompt === 'function') {
+    window.sendPrompt(msg);
+  } else {
+    const encoded = encodeURIComponent(msg);
+    window.open(`https://claude.ai/new?q=${encoded}`, '_blank');
+  }
+}
+
+initPage();
+</script>
+</body>
+</html>
