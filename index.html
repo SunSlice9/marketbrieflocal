@@ -11,7 +11,7 @@
 <style>
 :root{
   --bg:#f0f2f7;--bg2:#fff;--bg3:#f7f8fc;--surface:#eef0f6;
-  --border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.12);
+  --border:rgba(0,0,0,.07);--border2:rgba(0,0,0,.12);
   --text:#0f1117;--text2:#5a6072;--text3:#9aa0b2;
   --green:#00b87a;--green-bg:#edfaf4;
   --red:#e8334a;--red-bg:#fdedef;
@@ -19,14 +19,14 @@
   --blue:#2563eb;--blue-bg:#eff4ff;
   --purple:#7c3aed;--purple-bg:#f3effe;
   --ff:'Plus Jakarta Sans',sans-serif;--ff-mono:'JetBrains Mono',monospace;
-  --radius:14px;--shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.06);
+  --radius:14px;--shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:var(--ff);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden;}
 
-/* KEY GATE */
-#key-gate{position:fixed;inset:0;background:linear-gradient(135deg,#0a0c14 0%,#111827 100%);z-index:1000;display:flex;align-items:center;justify-content:center;padding:2rem;}
-.gate-inner{width:100%;max-width:440px;}
+/* GATE */
+#key-gate{position:fixed;inset:0;background:linear-gradient(135deg,#0a0c14,#111827);z-index:1000;display:flex;align-items:center;justify-content:center;padding:2rem;}
+.gate-inner{width:100%;max-width:460px;}
 .gate-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;color:#00b87a;background:rgba(0,184,122,.1);border:1px solid rgba(0,184,122,.2);padding:4px 12px;border-radius:20px;margin-bottom:1.5rem;}
 .gate-dot{width:5px;height:5px;border-radius:50%;background:#00b87a;animation:blink 2s infinite;}
 .gate-h1{font-size:44px;font-weight:700;color:#fff;letter-spacing:-.03em;line-height:1;margin-bottom:6px;}
@@ -35,7 +35,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--ff);font-size:14px
 .gate-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:1.75rem;}
 .gate-label{font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#6b7280;margin-bottom:8px;}
 .gate-row{display:flex;gap:8px;margin-bottom:10px;}
-.gate-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 14px;font-family:var(--ff-mono);font-size:12px;color:#fff;outline:none;transition:border-color .2s;letter-spacing:.04em;}
+.gate-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 14px;font-family:var(--ff-mono);font-size:12px;color:#fff;outline:none;transition:border-color .2s;}
 .gate-input:focus{border-color:#2563eb;}
 .gate-input::placeholder{color:#374151;}
 .gate-go{background:#2563eb;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-family:var(--ff);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
@@ -43,56 +43,78 @@ body{background:var(--bg);color:var(--text);font-family:var(--ff);font-size:14px
 .gate-err{font-family:var(--ff-mono);font-size:11px;color:#f87171;margin-bottom:8px;display:none;}
 .gate-note{font-size:12px;color:#4b5563;line-height:1.7;margin-top:12px;}
 .gate-note a{color:#60a5fa;text-decoration:none;}
+.gate-feature{display:flex;align-items:center;gap:8px;font-size:12px;color:#6b7280;margin-top:10px;}
+.gate-feature-dot{width:6px;height:6px;border-radius:50%;background:#00b87a;flex-shrink:0;}
 
 /* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(240,242,247,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;}
-.nav-logo{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.02em;display:flex;align-items:center;gap:6px;}
+.nav-logo{font-size:17px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;}
 .nav-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);}
 .nav-tabs{display:flex;gap:2px;background:var(--surface);border-radius:10px;padding:3px;}
-.nav-tab{font-size:12px;font-weight:500;padding:5px 13px;border-radius:7px;border:none;background:transparent;color:var(--text2);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.nav-tab{font-size:12px;font-weight:500;padding:5px 12px;border-radius:7px;border:none;background:transparent;color:var(--text2);cursor:pointer;transition:all .18s;white-space:nowrap;}
 .nav-tab:hover{color:var(--text);}
 .nav-tab.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.1);}
 .nav-right{display:flex;align-items:center;gap:10px;}
-.live-pill{display:flex;align-items:center;gap:5px;font-family:var(--ff-mono);font-size:10px;color:var(--green);background:var(--green-bg);border:1px solid rgba(0,184,122,.2);padding:4px 10px;border-radius:20px;letter-spacing:.06em;}
+.live-pill{display:flex;align-items:center;gap:5px;font-family:var(--ff-mono);font-size:10px;color:var(--green);background:var(--green-bg);border:1px solid rgba(0,184,122,.2);padding:4px 10px;border-radius:20px;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .live-dot-g{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
+.data-pill{display:flex;align-items:center;gap:5px;font-family:var(--ff-mono);font-size:10px;color:var(--blue);background:var(--blue-bg);border:1px solid rgba(37,99,235,.2);padding:4px 10px;border-radius:20px;}
 .nav-date{font-family:var(--ff-mono);font-size:10px;color:var(--text3);}
-.nav-btn{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:6px 13px;border-radius:8px;border:1px solid var(--border2);background:#fff;color:var(--text2);cursor:pointer;transition:all .18s;box-shadow:0 1px 2px rgba(0,0,0,.05);}
+.nav-btn{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:6px 13px;border-radius:8px;border:1px solid var(--border2);background:#fff;color:var(--text2);cursor:pointer;transition:all .18s;}
 .nav-btn:hover{color:var(--text);}
 .nav-btn:disabled{opacity:.4;cursor:not-allowed;}
 .nav-btn svg{transition:transform .3s;}
 .nav-btn.spin svg{animation:rot .7s linear infinite;}
 @keyframes rot{to{transform:rotate(360deg)}}
-.key-btn{font-size:12px;font-weight:500;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all .18s;}
+.key-btn{font-size:12px;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all .18s;}
 .key-btn:hover{color:var(--red);}
 
 /* LAYOUT */
 .layout{max-width:1440px;margin:0 auto;padding:1.5rem 1.5rem 4rem;}
 
-/* INDEX TICKER BAR */
-.index-bar{display:flex;gap:0;background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:1.25rem;overflow:hidden;box-shadow:var(--shadow);}
-.index-item{flex:1;padding:12px 16px;border-right:1px solid var(--border);cursor:pointer;transition:background .15s;position:relative;}
+/* DATA STATUS BAR */
+#data-status-bar{display:none;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin-bottom:1.25rem;box-shadow:var(--shadow);}
+.dsb-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.dsb-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.dsb-item{font-family:var(--ff-mono);font-size:10px;color:var(--text3);display:flex;align-items:center;gap:5px;}
+.dsb-dot{width:5px;height:5px;border-radius:50%;}
+.dsb-green{background:var(--green)}.dsb-amber{background:var(--amber)}.dsb-red{background:var(--red)}
+.dsb-right{font-family:var(--ff-mono);font-size:10px;color:var(--text3);}
+
+/* INDEX BAR */
+.index-bar{display:grid;grid-template-columns:repeat(6,1fr);background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:1.25rem;overflow:hidden;box-shadow:var(--shadow);}
+.index-item{padding:12px 14px;border-right:1px solid var(--border);cursor:pointer;transition:background .15s;position:relative;}
 .index-item:last-child{border-right:none;}
 .index-item:hover{background:var(--bg3);}
-.index-name{font-family:var(--ff-mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
-.index-val{font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--text);}
-.index-chg{font-family:var(--ff-mono);font-size:11px;font-weight:500;margin-top:2px;}
-.index-chg.up{color:var(--green)}.index-chg.dn{color:var(--red)}.index-chg.flat{color:var(--text3)}
-.index-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1d2e;color:#e5e7eb;font-size:12px;line-height:1.6;padding:10px 14px;border-radius:10px;width:240px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.2);}
-.index-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1a1d2e;}
 .index-item:hover .index-tooltip{display:block;}
+.index-name{font-family:var(--ff-mono);font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:3px;}
+.index-val{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--text);}
+.index-changes{display:flex;gap:8px;margin-top:3px;align-items:center;flex-wrap:wrap;}
+.index-chg{font-family:var(--ff-mono);font-size:10px;font-weight:500;}
+.index-chg.up{color:var(--green)}.index-chg.dn{color:var(--red)}.index-chg.flat{color:var(--text3)}
+.index-period{font-family:var(--ff-mono);font-size:9px;color:var(--text3);}
+.index-source{font-family:var(--ff-mono);font-size:8px;color:var(--green);margin-top:2px;}
+.index-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1d2e;color:#e5e7eb;font-size:12px;line-height:1.6;padding:10px 14px;border-radius:10px;min-width:220px;max-width:280px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.25);}
+.index-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1a1d2e;}
 
 /* LOADING */
-.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 0;gap:1rem;}
-.loading-ring{width:40px;height:40px;border:2px solid var(--border2);border-top-color:var(--blue);border-radius:50%;animation:rot .8s linear infinite;}
-.loading-label{font-family:var(--ff-mono);font-size:11px;color:var(--text3);letter-spacing:.07em;animation:fade 1.8s ease-in-out infinite;}
-@keyframes fade{0%,100%{opacity:.3}50%{opacity:1}}
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 0;gap:1.25rem;}
+.loading-ring{width:44px;height:44px;border:2px solid var(--border2);border-top-color:var(--blue);border-radius:50%;animation:rot .8s linear infinite;}
+.loading-steps{display:flex;flex-direction:column;gap:8px;width:280px;}
+.loading-step{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--text3);}
+.loading-step.done{color:var(--green);}
+.loading-step.active{color:var(--text);}
+.step-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
+.step-pending{background:var(--surface);color:var(--text3);}
+.step-active{background:var(--blue-bg);color:var(--blue);animation:pulse 1s ease-in-out infinite;}
+.step-done{background:var(--green-bg);color:var(--green);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
 /* GRID */
 .grid{display:grid;gap:1.25rem;margin-bottom:1.25rem;}
 .g1{grid-template-columns:1fr}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
-.g32{grid-template-columns:3fr 2fr}.g23{grid-template-columns:2fr 3fr}.g13{grid-template-columns:1fr 3fr}
+.g32{grid-template-columns:3fr 2fr}.g23{grid-template-columns:2fr 3fr}
 
 /* CARDS */
 .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;box-shadow:var(--shadow);animation:up .4s ease both;overflow:hidden;}
@@ -106,11 +128,37 @@ nav{position:sticky;top:0;z-index:100;background:rgba(240,242,247,.94);backdrop-
 
 /* HEATMAP */
 .heatmap-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;}
-.hm-cell{border-radius:7px;padding:6px 4px;text-align:center;cursor:default;transition:transform .15s;}
-.hm-cell:hover{transform:scale(1.1);z-index:2;position:relative;}
+.hm-cell{border-radius:7px;padding:7px 4px;text-align:center;cursor:pointer;transition:transform .15s;position:relative;}
+.hm-cell:hover{transform:scale(1.12);z-index:2;box-shadow:0 4px 12px rgba(0,0,0,.15);}
 .hm-ticker{font-family:var(--ff-mono);font-size:9px;font-weight:600;display:block;}
-.hm-score{font-size:11px;font-weight:500;display:block;margin-top:1px;}
+.hm-score{font-size:12px;font-weight:700;display:block;margin-top:1px;}
+.hm-price{font-family:var(--ff-mono);font-size:8px;display:block;margin-top:1px;opacity:.75;}
 .hm-strong-bull{background:#a7f3d0;color:#047857}.hm-bull{background:#d1fae5;color:#059669}.hm-neutral{background:#f3f4f6;color:#6b7280}.hm-bear{background:#fee2e2;color:#dc2626}.hm-strong-bear{background:#fecaca;color:#991b1b}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(4px);}
+.modal-box{background:#fff;border-radius:var(--radius);width:100%;max-width:680px;max-height:88vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.2);animation:up .25s ease both;}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:1;}
+.modal-title{font-size:16px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;}
+.modal-close{width:28px;height:28px;border-radius:50%;border:1px solid var(--border2);background:transparent;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .15s;}
+.modal-close:hover{background:var(--red-bg);color:var(--red);}
+.modal-body{padding:1.5rem;}
+
+/* LIVE DATA GRID */
+.live-data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.ld-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;}
+.ld-label{font-family:var(--ff-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.ld-val{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.01em;}
+.ld-sub{font-size:10px;color:var(--text2);margin-top:2px;}
+.ld-up{color:var(--green)}.ld-dn{color:var(--red)}.ld-neutral{color:var(--text2)}
+
+/* BREAKDOWN */
+.breakdown-row{display:grid;grid-template-columns:150px 1fr 40px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);}
+.breakdown-row:last-child{border-bottom:none;}
+.breakdown-label{font-size:12px;color:var(--text2);}
+.breakdown-bar-bg{height:7px;background:var(--surface);border-radius:4px;overflow:hidden;}
+.breakdown-bar-fill{height:100%;border-radius:4px;}
+.breakdown-val{font-family:var(--ff-mono);font-size:11px;color:var(--text2);text-align:right;}
 
 /* METER */
 .meter-wrap{display:flex;flex-direction:column;align-items:center;}
@@ -143,53 +191,39 @@ nav{position:sticky;top:0;z-index:100;background:rgba(240,242,247,.94);backdrop-
 .macro-val{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:3px;}
 .macro-trend{font-size:11px;color:var(--text2);}
 
-/* TICKER TABLE */
+/* TABLES */
 .ticker-table{width:100%;border-collapse:collapse;}
 .ticker-table th{font-family:var(--ff-mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
 .ticker-table td{padding:9px 10px;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:middle;}
 .ticker-table tr:last-child td{border-bottom:none;}
 .ticker-table tr:hover td{background:var(--bg3);}
 .tt-sym{font-family:var(--ff-mono);font-size:12px;font-weight:600;color:var(--text);}
-
-/* NEWS */
-.news-item{display:flex;flex-direction:column;gap:4px;padding:10px 0;border-bottom:1px solid var(--border);}
-.news-item:last-child{border-bottom:none;}
-.news-headline{font-size:13px;font-weight:500;color:var(--text);line-height:1.5;}
-.news-headline a{color:var(--text);text-decoration:none;}
-.news-headline a:hover{color:var(--blue);text-decoration:underline;}
-.news-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.news-ticker{font-family:var(--ff-mono);font-size:10px;padding:2px 6px;border-radius:4px;background:var(--blue-bg);color:var(--blue);}
-.news-source{font-size:11px;color:var(--text3);}
-.news-sentiment{font-family:var(--ff-mono);font-size:10px;padding:2px 6px;border-radius:4px;}
-.ns-bull{background:var(--green-bg);color:var(--green)}.ns-bear{background:var(--red-bg);color:var(--red)}.ns-neutral{background:var(--surface);color:var(--text3)}
-
-/* IPO */
-.ipo-item{display:grid;grid-template-columns:60px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
-.ipo-item:last-child{border-bottom:none;}
-.ipo-ticker{font-family:var(--ff-mono);font-size:13px;font-weight:600;color:var(--text);}
-.ipo-desc{font-size:12.5px;color:var(--text2);line-height:1.5;}
-.ipo-date{font-family:var(--ff-mono);font-size:11px;color:var(--text3);text-align:right;}
-
-/* EARNINGS */
-.earnings-item{display:grid;grid-template-columns:60px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
-.earnings-item:last-child{border-bottom:none;}
-
-/* CALENDAR enhanced */
 .cal-table{width:100%;border-collapse:collapse;}
 .cal-table th{font-family:var(--ff-mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
 .cal-table td{padding:9px 10px;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:top;}
 .cal-table tr:last-child td{border-bottom:none;}
 .cal-table tr:hover td{background:var(--bg3);}
-.cal-desc{font-size:11.5px;color:var(--text3);line-height:1.5;margin-top:3px;}
-.cal-link{font-size:11px;color:var(--blue);text-decoration:none;display:inline-flex;align-items:center;gap:3px;margin-top:3px;}
+.cal-desc{font-size:11.5px;color:var(--text3);line-height:1.5;margin-top:2px;}
+.cal-link{font-size:11px;color:var(--blue);text-decoration:none;display:inline-flex;align-items:center;gap:3px;margin-top:2px;}
 .cal-link:hover{text-decoration:underline;}
+
+/* NEWS */
+.news-item{padding:10px 0;border-bottom:1px solid var(--border);}
+.news-item:last-child{border-bottom:none;}
+.news-headline a{font-size:13px;font-weight:500;color:var(--text);text-decoration:none;line-height:1.5;}
+.news-headline a:hover{color:var(--blue);text-decoration:underline;}
+.news-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px;}
+.news-ticker{font-family:var(--ff-mono);font-size:10px;padding:2px 6px;border-radius:4px;background:var(--blue-bg);color:var(--blue);}
+.news-source{font-size:11px;color:var(--text3);}
+.news-sent{font-family:var(--ff-mono);font-size:10px;padding:2px 6px;border-radius:4px;}
+.ns-bull{background:var(--green-bg);color:var(--green)}.ns-bear{background:var(--red-bg);color:var(--red)}.ns-neutral{background:var(--surface);color:var(--text3)}
 
 /* SCORE BAR */
 .score-bar-bg{height:6px;background:var(--surface);border-radius:3px;overflow:hidden;flex:1;}
-.score-bar-fill{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.22,1,.36,1);}
+.score-bar-fill{height:100%;border-radius:3px;}
 
-/* ANALYST */
-.analyst-card{background:linear-gradient(135deg,#1e40af 0%,#6d28d9 100%);border-radius:var(--radius);padding:1.5rem;color:#fff;animation:up .5s .2s ease both;position:relative;overflow:hidden;}
+/* ANALYST CARD */
+.analyst-card{background:linear-gradient(135deg,#1e40af,#6d28d9);border-radius:var(--radius);padding:1.5rem;color:#fff;animation:up .5s .2s ease both;position:relative;overflow:hidden;}
 .analyst-card::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:rgba(255,255,255,.06);border-radius:50%;}
 .analyst-title{font-size:11px;font-weight:600;letter-spacing:.08em;opacity:.7;text-transform:uppercase;margin-bottom:8px;}
 .analyst-text{font-size:13.5px;line-height:1.85;opacity:.92;position:relative;z-index:1;white-space:pre-wrap;}
@@ -199,30 +233,29 @@ nav{position:sticky;top:0;z-index:100;background:rgba(240,242,247,.94);backdrop-
 
 /* ACTIONS */
 .actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:1.25rem;border-top:1px solid var(--border);}
-.act-btn{font-size:12px;font-weight:500;padding:8px 15px;border-radius:8px;border:1px solid var(--border2);background:#fff;color:var(--text2);cursor:pointer;transition:all .18s;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+.act-btn{font-size:12px;font-weight:500;padding:8px 15px;border-radius:8px;border:1px solid var(--border2);background:#fff;color:var(--text2);cursor:pointer;transition:all .18s;}
 .act-btn:hover{background:var(--blue-bg);color:var(--blue);border-color:rgba(37,99,235,.25);}
 
-/* ERROR */
 .err-box{background:var(--red-bg);border:1px solid rgba(232,51,74,.2);border-radius:12px;padding:1.25rem 1.5rem;color:var(--red);font-size:13px;}
+.warn-box{background:var(--amber-bg);border:1px solid rgba(232,148,10,.2);border-radius:10px;padding:10px 14px;color:var(--amber);font-size:12px;margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
 
-/* FOOTER */
 footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;justify-content:space-between;max-width:1440px;margin:0 auto;}
 .footer-txt{font-family:var(--ff-mono);font-size:10px;color:var(--text3);letter-spacing:.04em;}
 
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}
 
-@media(max-width:1100px){.g3{grid-template-columns:1fr 1fr}.gauge-grid{grid-template-columns:repeat(2,1fr)}.heatmap-grid{grid-template-columns:repeat(6,1fr)}.index-bar{flex-wrap:wrap}}
-@media(max-width:800px){.g2,.g3,.g32,.g23,.g13{grid-template-columns:1fr}.nav-tabs{display:none}nav{padding:0 1rem}.layout{padding:1rem 1rem 3rem}}
+@media(max-width:1100px){.g3{grid-template-columns:1fr 1fr}.gauge-grid{grid-template-columns:repeat(2,1fr)}.heatmap-grid{grid-template-columns:repeat(6,1fr)}.index-bar{grid-template-columns:repeat(3,1fr)}.live-data-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:800px){.g2,.g3,.g32,.g23{grid-template-columns:1fr}.nav-tabs{display:none}nav{padding:0 1rem}.layout{padding:1rem 1rem 3rem}.index-bar{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 
-<!-- KEY GATE -->
+<!-- GATE -->
 <div id="key-gate">
   <div class="gate-inner">
-    <div class="gate-badge"><span class="gate-dot"></span>FREE · GROQ POWERED · NO CREDIT CARD</div>
+    <div class="gate-badge"><span class="gate-dot"></span>LIVE DATA · GROQ AI · NO CREDIT CARD</div>
     <div class="gate-h1">Market<span>Brief</span></div>
-    <div class="gate-sub">Your personal AI-powered daily market intelligence dashboard</div>
+    <div class="gate-sub">AI-powered daily intelligence with live market data</div>
     <div class="gate-card">
       <div class="gate-label">Groq API Key</div>
       <div class="gate-row">
@@ -230,8 +263,28 @@ footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;ju
         <button class="gate-go" onclick="handleKey()">Launch →</button>
       </div>
       <div class="gate-err" id="gate-err"></div>
-      <div class="gate-note">🔒 Stored only in your browser. Get a free key at <a href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys.</div>
+      <div class="gate-note">🔒 Stored only in your browser. Get a free key at <a href="https://console.groq.com" target="_blank">console.groq.com</a></div>
+      <div class="gate-feature" style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06)">
+        <span class="gate-feature-dot"></span>Live Yahoo Finance data feeds AI scoring — no stale analysis
+      </div>
+      <div class="gate-feature">
+        <span class="gate-feature-dot"></span>Real P/E, EPS beats, analyst targets, price moves
+      </div>
+      <div class="gate-feature">
+        <span class="gate-feature-dot"></span>31 tickers scored on actual current fundamentals
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="score-modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Score Breakdown</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
   </div>
 </div>
 
@@ -250,8 +303,9 @@ footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;ju
   </div>
   <div class="nav-right">
     <div class="live-pill"><span class="live-dot-g"></span>LIVE</div>
+    <div class="data-pill" id="data-pill" style="display:none">📊 LIVE DATA</div>
     <span class="nav-date" id="nav-date"></span>
-    <button class="nav-btn" id="ref-btn" onclick="loadTab(currentTab)">
+    <button class="nav-btn" id="ref-btn" onclick="runFullLoad()">
       <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M13.65 2.35A8 8 0 1 0 15 8h-2a6 6 0 1 1-1.76-4.24L8 7h7V0l-1.35 2.35z" fill="currentColor"/></svg>
       Refresh
     </button>
@@ -260,7 +314,7 @@ footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;ju
 </nav>
 
 <div class="layout">
-  <!-- Index Bar always visible after load -->
+  <div id="data-status-bar"></div>
   <div class="index-bar" id="index-bar" style="display:none;"></div>
   <div id="content-area"></div>
   <div class="actions" id="actions" style="display:none;">
@@ -274,156 +328,500 @@ footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;ju
 </div>
 
 <footer>
-  <span class="footer-txt">MARKETBRIEF · AI MARKET INTELLIGENCE · NOT FINANCIAL ADVICE</span>
+  <span class="footer-txt">MARKETBRIEF · LIVE YAHOO FINANCE + GROQ AI · NOT FINANCIAL ADVICE</span>
   <span class="footer-txt" id="footer-time"></span>
 </footer>
 </div>
 
 <script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const WATCHLIST=[
+  {ticker:'NVDA',name:'NVIDIA'},
+  {ticker:'AMD',name:'Advanced Micro Devices'},
+  {ticker:'GOOGL',name:'Alphabet'},
+  {ticker:'CRWD',name:'CrowdStrike'},
+  {ticker:'TSM',name:'Taiwan Semiconductor'},
+  {ticker:'MELI',name:'MercadoLibre'},
+  {ticker:'ASML',name:'ASML Holding'},
+  {ticker:'NFLX',name:'Netflix'},
+  {ticker:'SOFI',name:'SoFi Technologies'},
+  {ticker:'RKLB',name:'Rocket Lab USA'},
+  {ticker:'SHOP',name:'Shopify'},
+  {ticker:'ISRG',name:'Intuitive Surgical'},
+  {ticker:'BABA',name:'Alibaba'},
+  {ticker:'GRAB',name:'Grab Holdings'},
+  {ticker:'NVO',name:'Novo Nordisk'},
+  {ticker:'ANET',name:'Arista Networks'},
+  {ticker:'CPNG',name:'Coupang'},
+  {ticker:'QBTS',name:'D-Wave Quantum'},
+  {ticker:'XPEV',name:'XPeng'},
+  {ticker:'MBLY',name:'Mobileye'},
+  {ticker:'UPS',name:'United Parcel Service'},
+  {ticker:'CART',name:'Instacart'},
+  {ticker:'MOD',name:'Modine Manufacturing'},
+  {ticker:'CYPH',name:'Cipher Mining'},
+  {ticker:'DNA',name:'Ginkgo Bioworks'},
+  {ticker:'DOCS',name:'Doximity'},
+  {ticker:'VOO',name:'Vanguard S&P 500 ETF'},
+  {ticker:'VTI',name:'Vanguard Total Market ETF'},
+  {ticker:'QQQ',name:'Invesco QQQ ETF'},
+  {ticker:'SCHG',name:'Schwab Large Cap Growth ETF'},
+  {ticker:'TQQQ',name:'ProShares UltraPro QQQ'}
+];
+const INDICES=['SPY','QQQ','DIA','IWM','^TNX','USO'];
+const INDEX_NAMES={'SPY':'S&P 500','QQQ':'NASDAQ','DIA':'Dow Jones','IWM':'Russell 2k','^TNX':'10Y Yield','USO':'Oil WTI'};
+
 const TODAY=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-let groqKey='',currentTab='dashboard',cache={};
+let groqKey='',currentTab='dashboard',cache={},liveData={},indexData=[];
 let charts=[];
 
-// AUTH
+// ─── AUTH ─────────────────────────────────────────────────────────────────────
 function handleKey(){
   const v=document.getElementById('key-input').value.trim();
-  if(!v.startsWith('gsk_')||v.length<20){gErr('Key should start with gsk_ — please check.');return;}
+  if(!v.startsWith('gsk_')||v.length<20){showGateErr('Key should start with gsk_ — please check.');return;}
   groqKey=v;localStorage.setItem('mb_key',v);launchApp();
 }
-function gErr(m){const e=document.getElementById('gate-err');e.textContent=m;e.style.display='block';}
-function logout(){localStorage.removeItem('mb_key');groqKey='';cache={};destroyCharts();document.getElementById('app').style.display='none';document.getElementById('key-gate').style.display='flex';document.getElementById('key-input').value='';document.getElementById('gate-err').style.display='none';}
+function showGateErr(m){const e=document.getElementById('gate-err');e.textContent=m;e.style.display='block';}
+function logout(){localStorage.removeItem('mb_key');groqKey='';cache={};liveData={};indexData=[];destroyCharts();document.getElementById('app').style.display='none';document.getElementById('key-gate').style.display='flex';document.getElementById('key-input').value='';document.getElementById('gate-err').style.display='none';document.getElementById('index-bar').style.display='none';document.getElementById('data-status-bar').style.display='none';document.getElementById('data-pill').style.display='none';}
 document.getElementById('key-input').addEventListener('keydown',e=>{if(e.key==='Enter')handleKey();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 function launchApp(){
   document.getElementById('key-gate').style.display='none';
   document.getElementById('app').style.display='block';
   document.getElementById('nav-date').textContent=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
   updTime();
-  loadTab('dashboard');
+  runFullLoad();
 }
 function updTime(){document.getElementById('footer-time').textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});}
 function destroyCharts(){charts.forEach(c=>{try{c.destroy();}catch(e){}});charts=[];}
-
 function switchTab(tab,btn){
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');currentTab=tab;
   if(cache[tab])renderTab(tab,cache[tab]);else loadTab(tab);
 }
 
-// PROMPTS
-const P={
-dashboard:`You are an elite financial analyst. Today is ${TODAY}. Respond ONLY with valid JSON, no markdown fences:
-{"indices":[{"name":"S&P 500","value":"<level>","change":"<±%>","trend":"<up|down|flat>","analysis":"<1-2 sentences on what is driving this index today — specific catalysts, sector rotation, macro factors>"},{"name":"NASDAQ","value":"<level>","change":"<±%>","trend":"<up|down|flat>","analysis":"<1-2 sentences on drivers>"},{"name":"Dow Jones","value":"<level>","change":"<±%>","trend":"<up|down|flat>","analysis":"<1-2 sentences>"},{"name":"Russell 2k","value":"<level>","change":"<±%>","trend":"<up|down|flat>","analysis":"<1-2 sentences>"},{"name":"10Y Yield","value":"<X.XX%>","change":"<±bps>","trend":"<up|down|flat>","analysis":"<1-2 sentences>"},{"name":"Oil WTI","value":"<$XX>","change":"<±%>","trend":"<up|down|flat>","analysis":"<1-2 sentences>"}],"market_pulse":{"sentiment":<0-100>,"sentiment_label":"<Fear|Caution|Neutral|Optimism|Greed>","headline":"<one sharp market narrative sentence>","detail":"<2-3 sentences on conditions and key drivers>"},"watchlist_scores":[{"ticker":"NVDA","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words max>"},{"ticker":"AMD","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"GOOGL","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"CRWD","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"TSM","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"MELI","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"ASML","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"NFLX","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"SOFI","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"RKLB","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"SHOP","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"ISRG","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"BABA","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"GRAB","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"NVO","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"ANET","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"CPNG","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"QBTS","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"XPEV","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"MBLY","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"UPS","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"CART","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"MOD","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"CYPH","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"DNA","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"DOCS","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"VOO","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"VTI","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"QQQ","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"SCHG","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"},{"ticker":"TQQQ","score":<1-10>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words>"}],"top_picks":[{"ticker":"<ticker>","reason":"<1 sentence>","risk_reward":"<High|Medium|Low>","timeframe":"<Short|Medium|Long>"},{"ticker":"<ticker>","reason":"<1 sentence>","risk_reward":"<High|Medium|Low>","timeframe":"<Short|Medium|Long>"},{"ticker":"<ticker>","reason":"<1 sentence>","risk_reward":"<High|Medium|Low>","timeframe":"<Short|Medium|Long>"}],"risks":[{"title":"<name>","desc":"<1-2 sentences>","level":"<HIGH|MED|LOW>"},{"title":"<name>","desc":"<1-2 sentences>","level":"<HIGH|MED|LOW>"},{"title":"<name>","desc":"<1-2 sentences>","level":"<HIGH|MED|LOW>"},{"title":"<name>","desc":"<1-2 sentences>","level":"<HIGH|MED|LOW>"}],"sector_momentum":[{"sector":"AI/Semis","score":<0-100>},{"sector":"Cybersecurity","score":<0-100>},{"sector":"Fintech","score":<0-100>},{"sector":"EM eComm","score":<0-100>},{"sector":"Space","score":<0-100>},{"sector":"Healthcare AI","score":<0-100>},{"sector":"Autonomous","score":<0-100>}],"analyst_take":"<3-4 direct opinionated sentences: risk-on or risk-off, best opportunity, what to watch. No disclaimers.>"}`,
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+function closeModal(){document.getElementById('score-modal').style.display='none';}
+function openScoreModal(ticker){
+  const s=window._scores?.find(x=>x.ticker===ticker);
+  if(!s)return;
+  const ld=liveData[ticker]||{};
+  const score=Number(s.score);
+  const col=score>=7?'var(--green)':score>=5?'var(--blue)':'var(--red)';
+  const bd=s.breakdown||{};
+  const dims=[
+    {label:'📊 Earnings & EPS Beat',key:'earnings'},
+    {label:'💰 Valuation (P/E, P/S)',key:'valuation'},
+    {label:'📈 Margins & Free Cash Flow',key:'margins'},
+    {label:'🚀 Revenue Growth',key:'growth'},
+    {label:'🏦 Analyst Consensus',key:'analyst_sentiment'},
+    {label:'📉 Technical Momentum',key:'technicals'},
+    {label:'📰 News & Catalysts',key:'news_catalysts'},
+  ];
 
-watchlist:`You are an elite equities analyst with access to comprehensive financial data. Today is ${TODAY}.
-Watchlist: SOFI (SoFi Technologies), CRWD (CrowdStrike), GOOGL (Alphabet), TSM (Taiwan Semiconductor), AMD (Advanced Micro Devices), MELI (MercadoLibre), ISRG (Intuitive Surgical), GRAB (Grab Holdings), BABA (Alibaba), VOO (Vanguard S&P500 ETF), NVDA (NVIDIA), ANET (Arista Networks), SCHG (Schwab Large Cap Growth ETF), NFLX (Netflix), ASML (ASML Holding), RKLB (Rocket Lab USA), NVO (Novo Nordisk), UPS (United Parcel Service), DOCS (Doximity), DNA (Ginkgo Bioworks), CYPH (Cypher Genomics), VTI (Vanguard Total Market ETF), CPNG (Coupang), CART (Instacart/Maplebear), SHOP (Shopify), QQQ (Invesco QQQ ETF), TQQQ (ProShares UltraPro QQQ), XPEV (XPeng), QBTS (D-Wave Quantum), MBLY (Mobileye), MOD (Modine Manufacturing).
+  // live data section
+  const fmtN=(v,dec=2)=>v!=null&&!isNaN(v)?Number(v).toFixed(dec):'N/A';
+  const fmtP=(v)=>v!=null&&!isNaN(v)?(v>=0?'+':'')+Number(v).toFixed(2)+'%':'N/A';
+  const chgCol=v=>v>=0?'ld-up':'ld-dn';
 
-For each ticker score, analyze: recent earnings (EPS, revenue growth, beat/miss), P/E ratio and valuation vs peers, operating margins and gross margins, free cash flow, EBITDA trends, revenue growth trajectory, customer/user growth, CEO performance and guidance, analyst ratings and recent upgrades/downgrades, institutional ownership changes, short interest, technical momentum, sector tailwinds/headwinds, recent news catalysts. Score 1-10 reflecting comprehensive fundamental + technical + sentiment analysis.
+  const liveHTML=ld.price?`
+  <div style="margin-bottom:14px">
+    <div style="font-family:var(--ff-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span>LIVE MARKET DATA
+    </div>
+    <div class="live-data-grid">
+      <div class="ld-item"><div class="ld-label">Price</div><div class="ld-val">$${fmtN(ld.price)}</div><div class="ld-sub ${chgCol(ld.change_pct||0)}">${fmtP(ld.change_pct)} today</div></div>
+      <div class="ld-item"><div class="ld-label">P/E Ratio</div><div class="ld-val">${ld.pe?fmtN(ld.pe,1)+'x':'N/A'}</div><div class="ld-sub">Trailing P/E</div></div>
+      <div class="ld-item"><div class="ld-label">Analyst Target</div><div class="ld-val">${ld.target?'$'+fmtN(ld.target):'N/A'}</div><div class="ld-sub">${ld.target&&ld.price?((ld.target/ld.price-1)*100).toFixed(1)+'% upside':'—'}</div></div>
+      <div class="ld-item"><div class="ld-label">52W Range</div><div class="ld-val" style="font-size:12px">${ld.low52?'$'+fmtN(ld.low52,0)+' – $'+fmtN(ld.high52,0):'N/A'}</div><div class="ld-sub">Low – High</div></div>
+      <div class="ld-item"><div class="ld-label">EPS (TTM)</div><div class="ld-val">${ld.eps?'$'+fmtN(ld.eps):'N/A'}</div><div class="ld-sub">Trailing 12M</div></div>
+      <div class="ld-item"><div class="ld-label">Market Cap</div><div class="ld-val" style="font-size:12px">${ld.mktcap?fmtMktCap(ld.mktcap):'N/A'}</div><div class="ld-sub">USD</div></div>
+    </div>
+  </div>`:'';
 
-Respond ONLY with valid JSON, no markdown:
-{"movers":[{"ticker":"<>","company":"<full company name>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words max catalyst>","score":<1-10>,"analyst_change":"<Upgraded|Downgraded|Initiated|No change>","analyst_detail":"<e.g. Morgan Stanley upgraded to Overweight, PT $350>"},{"ticker":"<>","company":"<>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words>","score":<1-10>,"analyst_change":"<Upgraded|Downgraded|Initiated|No change>","analyst_detail":"<detail>"},{"ticker":"<>","company":"<>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words>","score":<1-10>,"analyst_change":"<Upgraded|Downgraded|Initiated|No change>","analyst_detail":"<detail>"},{"ticker":"<>","company":"<>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"<>","company":"<>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"<>","company":"<>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"<>","company":"<>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"<>","company":"<>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"<>","company":"<>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"<>","company":"<>","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"}],"catalyst_watch":[{"ticker":"<>","event":"<catalyst>","timeframe":"<this week|this month|next quarter>","impact":"<high|medium|low>"},{"ticker":"<>","event":"<>","timeframe":"<>","impact":"<>"},{"ticker":"<>","event":"<>","timeframe":"<>","impact":"<>"},{"ticker":"<>","event":"<>","timeframe":"<>","impact":"<>"},{"ticker":"<>","event":"<>","timeframe":"<>","impact":"<>"}],"comparison":{"tickers":["NVDA","AMD","CRWD","SHOP","MELI"],"growth":[<0-100>,<0-100>,<0-100>,<0-100>,<0-100>],"value":[<0-100>,<0-100>,<0-100>,<0-100>,<0-100>],"momentum":[<0-100>,<0-100>,<0-100>,<0-100>,<0-100>]},"additions":[{"ticker":"<not on list>","thesis":"<1 sentence>","sector":"<sector>"},{"ticker":"<not on list>","thesis":"<1 sentence>","sector":"<sector>"},{"ticker":"<not on list>","thesis":"<1 sentence>","sector":"<sector>"}]}`,
+  const rows=dims.map(d=>{
+    const val=Number(bd[d.key]||0);
+    const bc=val>=70?'#00b87a':val>=45?'#2563eb':'#e8334a';
+    return`<div class="breakdown-row">
+      <div class="breakdown-label">${d.label}</div>
+      <div class="breakdown-bar-bg"><div class="breakdown-bar-fill" style="width:${val}%;background:${bc}"></div></div>
+      <div class="breakdown-val">${val}</div>
+    </div>`;
+  }).join('');
 
-macro:`You are a macro strategist. Today is ${TODAY}. Fed Chair Powell term expires May 15 2026. Respond ONLY with valid JSON, no markdown:
-{"indicators":[{"name":"Fed Rate","value":"<X.XX%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"CPI YoY","value":"<X.X%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"GDP Growth","value":"<X.X%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"Unemployment","value":"<X.X%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"10Y Yield","value":"<X.XX%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"DXY","value":"<XXX.X>","trend":"<up|down|flat>","color":"<green|red|amber>"}],"fed_stance":{"score":<0-100>,"label":"<Dovish|Leaning Dovish|Neutral|Leaning Hawkish|Hawkish>","detail":"<2-3 sentences on stance, next move, Powell transition risk>"},"global_risks":[{"region":"US","risk":"<main risk>","severity":<0-100>},{"region":"China","risk":"<main risk>","severity":<0-100>},{"region":"Middle East","risk":"<main risk>","severity":<0-100>},{"region":"Europe","risk":"<main risk>","severity":<0-100>},{"region":"EM","risk":"<main risk>","severity":<0-100>}],"calendar":[{"date":"<day e.g. Mon May 6>","event":"<event name>","description":"<1-2 sentence plain English explanation of what this is and why it matters for markets>","importance":"<high|medium|low>","url":"<relevant URL like federalreserve.gov or bls.gov or similar official source>"},{"date":"<day>","event":"<event>","description":"<description>","importance":"<high|medium|low>","url":"<url>"},{"date":"<day>","event":"<event>","description":"<description>","importance":"<high|medium|low>","url":"<url>"},{"date":"<day>","event":"<event>","description":"<description>","importance":"<high|medium|low>","url":"<url>"},{"date":"<day>","event":"<event>","description":"<description>","importance":"<high|medium|low>","url":"<url>"},{"date":"<day>","event":"<event>","description":"<description>","importance":"<high|medium|low>","url":"<url>"},{"date":"<day>","event":"<event>","description":"<description>","importance":"<high|medium|low>","url":"<url>"},{"date":"<day>","event":"<event>","description":"<description>","importance":"<high|medium|low>","url":"<url>"}],"macro_take":"<3 sentences: what macro backdrop means for this tech/growth/EM portfolio and single biggest variable to watch>"}`,
+  document.getElementById('modal-title').innerHTML=`<span style="font-family:var(--ff-mono);font-size:18px;color:${col}">${ticker}</span>&nbsp;— Score Breakdown`;
+  document.getElementById('modal-body').innerHTML=`
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border)">
+      <div style="font-size:52px;font-weight:700;color:${col};letter-spacing:-.04em;line-height:1">${score}<span style="font-size:22px;color:var(--text3)">/10</span></div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px">${s.company||s.name||ticker}</div>
+        <span class="card-badge ${s.sentiment==='bullish'?'cb-green':s.sentiment==='bearish'?'cb-red':'cb-amber'}">${s.sentiment||'neutral'}</span>
+        ${s.analyst_detail?`<div style="font-size:11px;color:var(--blue);margin-top:4px">🏦 ${s.analyst_detail}</div>`:''}
+      </div>
+    </div>
+    ${liveHTML}
+    <div style="font-family:var(--ff-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">AI Metric Scores (0-100) — based on live data</div>
+    ${rows}
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;margin-top:14px;font-size:12.5px;color:var(--text2);line-height:1.75">${s.analysis||s.note||'No detailed analysis available.'}</div>
+  `;
+  document.getElementById('score-modal').style.display='flex';
+}
 
-trends:`You are an emerging trends analyst. Today is ${TODAY}. Respond ONLY with valid JSON, no markdown:
-{"themes":[{"name":"AI Infrastructure","icon":"🤖","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["NVDA","ANET","GOOGL"],"headline":"<1 sentence>","detail":"<2-3 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"Space Economy","icon":"🚀","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["RKLB"],"headline":"<1 sentence on Rocket Lab USA specifically>","detail":"<2-3 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"Quantum Computing","icon":"⚛️","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["QBTS"],"headline":"<1 sentence>","detail":"<2-3 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"Autonomous & Physical AI","icon":"🚗","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["MBLY","XPEV"],"headline":"<1 sentence>","detail":"<2-3 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"GLP-1 & Healthcare AI","icon":"💊","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["NVO","ISRG"],"headline":"<1 sentence>","detail":"<2-3 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"Fintech & EM eComm","icon":"💳","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["SOFI","MELI","GRAB","CPNG"],"headline":"<1 sentence>","detail":"<2-3 sentences>","radar_picks":["<ticker>","<ticker>"]}]}`,
+function fmtMktCap(v){
+  if(v>=1e12)return(v/1e12).toFixed(2)+'T';
+  if(v>=1e9)return(v/1e9).toFixed(1)+'B';
+  if(v>=1e6)return(v/1e6).toFixed(0)+'M';
+  return v;
+}
 
-risk:`You are a senior risk analyst. Today is ${TODAY}. Portfolio: SOFI,CRWD,GOOGL,TSM,AMD,MELI,ISRG,GRAB,BABA,NVDA,ANET,NFLX,ASML,RKLB,NVO,UPS,DOCS,CYPH,VTI,CPNG,CART,SHOP,QQQ,TQQQ,XPEV,QBTS,MBLY,MOD,DNA,SCHG,VOO. Respond ONLY with valid JSON, no markdown:
-{"overall_risk":<integer 0-100>,"risk_label":"<Very Low|Low|Moderate|Elevated|High|Extreme>","gauges":[{"name":"Macro Risk","score":<integer 0-100>,"color":"<green|amber|red>"},{"name":"Geopolitical","score":<integer 0-100>,"color":"<green|amber|red>"},{"name":"Valuation","score":<integer 0-100>,"color":"<green|amber|red>"},{"name":"Concentration","score":<integer 0-100>,"color":"<green|amber|red>"}],"immediate_risks":[{"title":"<risk name>","desc":"<2 sentences>","level":"<HIGH|MED|LOW>","tickers":["<ticker>","<ticker>"]},{"title":"<risk name>","desc":"<2 sentences>","level":"<HIGH|MED|LOW>","tickers":["<ticker>"]},{"title":"<risk name>","desc":"<2 sentences>","level":"<HIGH|MED|LOW>","tickers":["<ticker>","<ticker>"]},{"title":"<risk name>","desc":"<2 sentences>","level":"<HIGH|MED|LOW>","tickers":["<ticker>"]}],"ticker_risk_scores":[{"ticker":"TQQQ","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"CYPH","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"QBTS","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"RKLB","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"XPEV","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"DNA","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"GRAB","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"BABA","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"MBLY","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"SOFI","risk":<integer 0-100>,"reason":"<6 words>"}],"tail_risks":[{"scenario":"<scenario name>","impact":"<1-2 sentences>","probability":"<Very Low|Low|Medium>"},{"scenario":"<scenario name>","impact":"<1-2 sentences>","probability":"<Very Low|Low|Medium>"},{"scenario":"<scenario name>","impact":"<1-2 sentences>","probability":"<Very Low|Low|Medium>"}],"risk_take":"<2-3 sentences: where is portfolio most vulnerable and what to hedge>"}`,
+// ─── YAHOO FINANCE DATA FETCH ─────────────────────────────────────────────────
+// Uses allorigins.win as a CORS proxy to reach Yahoo Finance v8 quote endpoint
+async function fetchYahooQuote(symbol){
+  try{
+    const url=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=1mo`;
+    const proxy=`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res=await fetch(proxy,{signal:AbortSignal.timeout(8000)});
+    if(!res.ok)return null;
+    const wrapper=await res.json();
+    const data=JSON.parse(wrapper.contents);
+    const q=data?.chart?.result?.[0];
+    if(!q)return null;
+    const meta=q.meta||{};
+    // calculate monthly change from first close to last close
+    const closes=q.indicators?.quote?.[0]?.close||[];
+    const validCloses=closes.filter(c=>c!=null);
+    const monthlyChg=validCloses.length>=2?((validCloses[validCloses.length-1]/validCloses[0]-1)*100):null;
+    return{
+      price:meta.regularMarketPrice,
+      prev:meta.chartPreviousClose||meta.regularMarketPreviousClose,
+      change_pct:meta.regularMarketPrice&&meta.chartPreviousClose?((meta.regularMarketPrice/meta.chartPreviousClose-1)*100):null,
+      high52:meta.fiftyTwoWeekHigh,
+      low52:meta.fiftyTwoWeekLow,
+      mktcap:meta.marketCap,
+      pe:meta.trailingPE,
+      eps:meta.epsTrailingTwelveMonths,
+      target:meta.twelveMonthsTargetPrice||meta.targetMeanPrice,
+      currency:meta.currency||'USD',
+      monthly_chg:monthlyChg,
+      closes:validCloses.slice(-20)// last 20 days for sparkline
+    };
+  }catch(e){return null;}
+}
 
-news:`You are a financial news analyst. Today is ${TODAY}. Watchlist: SOFI,CRWD,GOOGL,TSM,AMD,MELI,ISRG,GRAB,BABA,VOO,NVDA,ANET,SCHG,NFLX,ASML,RKLB,NVO,UPS,DOCS,DNA,CYPH,VTI,CPNG,CART,SHOP,QQQ,TQQQ,XPEV,QBTS,MBLY,MOD.
-Respond ONLY with valid JSON, no markdown:
-{"market_news":[{"headline":"<major market story headline>","summary":"<2 sentences>","sentiment":"<bullish|bearish|neutral>","url":"<best available url to a relevant source like reuters.com, bloomberg.com, wsj.com, ft.com, cnbc.com>","source":"<publication name>"},{"headline":"<story>","summary":"<2 sentences>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"headline":"<story>","summary":"<2 sentences>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"headline":"<story>","summary":"<2 sentences>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"headline":"<story>","summary":"<2 sentences>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"headline":"<story>","summary":"<2 sentences>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"}],"watchlist_news":[{"ticker":"<ticker>","company":"<company name>","headline":"<specific news about this company>","summary":"<2 sentences>","sentiment":"<bullish|bearish|neutral>","url":"<relevant url>","source":"<source>"},{"ticker":"<ticker>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"ticker":"<ticker>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"ticker":"<ticker>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"ticker":"<ticker>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"ticker":"<ticker>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"ticker":"<ticker>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"ticker":"<ticker>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"}]}`,
+// Fetch all tickers in parallel batches
+async function fetchAllLiveData(onProgress){
+  const allTickers=[...WATCHLIST.map(w=>w.ticker),...INDICES];
+  const results={};
+  const BATCH=8;
+  let done=0;
+  for(let i=0;i<allTickers.length;i+=BATCH){
+    const batch=allTickers.slice(i,i+BATCH);
+    const settled=await Promise.allSettled(batch.map(t=>fetchYahooQuote(t)));
+    settled.forEach((r,j)=>{
+      if(r.status==='fulfilled'&&r.value)results[batch[j]]=r.value;
+    });
+    done+=batch.length;
+    if(onProgress)onProgress(done,allTickers.length);
+    if(i+BATCH<allTickers.length)await new Promise(r=>setTimeout(r,200));
+  }
+  return results;
+}
 
-events:`You are a financial markets expert. Today is ${TODAY}. Respond ONLY with valid JSON, no markdown:
-{"upcoming_ipos":[{"ticker":"<expected ticker>","company":"<company name>","sector":"<sector>","date":"<expected date or window>","valuation":"<estimated valuation>","description":"<2 sentences on company and why it matters>","hype":"<High|Medium|Low>"},{"ticker":"<>","company":"<>","sector":"<>","date":"<>","valuation":"<>","description":"<>","hype":"<High|Medium|Low>"},{"ticker":"<>","company":"<>","sector":"<>","date":"<>","valuation":"<>","description":"<>","hype":"<High|Medium|Low>"},{"ticker":"<>","company":"<>","sector":"<>","date":"<>","valuation":"<>","description":"<>","hype":"<High|Medium|Low>"},{"ticker":"<>","company":"<>","sector":"<>","date":"<>","valuation":"<>","description":"<>","hype":"<High|Medium|Low>"}],"major_earnings":[{"ticker":"<ticker>","company":"<company>","date":"<report date>","period":"<Q1 2026 etc>","est_eps":"<consensus EPS estimate>","est_revenue":"<consensus revenue estimate>","last_result":"<beat|miss|in-line>","watchlist":true,"notes":"<1 sentence on what to watch for>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<1 sentence>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"}]}`
-};
+// ─── FULL LOAD ORCHESTRATOR ───────────────────────────────────────────────────
+async function runFullLoad(){
+  cache={};liveData={};indexData=[];
+  destroyCharts();
+  document.getElementById('actions').style.display='none';
+  document.getElementById('index-bar').style.display='none';
+  document.getElementById('data-status-bar').style.display='none';
+  document.getElementById('data-pill').style.display='none';
 
-const QP={
-semiconductor:`Today is ${TODAY}. Deep dive on NVDA, AMD, ASML, TSM semiconductor thesis for Q2/Q3 2026. Cover current setup, key catalysts, China risk, AI demand, valuation, bull and bear case. Be specific and opinionated. No disclaimers.`,
-portfolio_rank:`Today is ${TODAY}. Rank these by risk/reward best to worst: SOFI,CRWD,GOOGL,TSM,AMD,MELI,ISRG,GRAB,BABA,NVDA,ANET,SCHG,NFLX,ASML,RKLB,NVO,SHOP. One-sentence thesis and score 1-10 each. Be direct.`,
-etf_suggest:`Today is ${TODAY}. I own VTI,VOO,QQQ,SCHG,TQQQ. Suggest 3-5 ETFs to add for better diversification and growth exposure. Give ticker, thesis, and what gap it fills.`,
-best_opps:`Today is ${TODAY}. Most asymmetric opportunities in: SOFI,CRWD,GOOGL,TSM,AMD,MELI,ISRG,GRAB,BABA,NVDA,ANET,NFLX,ASML,RKLB,NVO,DOCS,CYPH,CPNG,CART,SHOP,XPEV,QBTS,MBLY,MOD. Top 3: bull case, bear case, why risk/reward is asymmetric. Direct, no disclaimers.`,
-rklb_qbts:`Today is ${TODAY}. Deep dive on RKLB (Rocket Lab USA — launch vehicles and space systems) and QBTS (D-Wave Quantum). For each: hype cycle vs fundamentals, revenue trajectory, competitive position, bull case, bear case, fair value range. No disclaimers.`,
-hedge:`Today is ${TODAY}. Portfolio heavy in tech/AI/fintech/EM: SOFI,CRWD,GOOGL,TSM,AMD,MELI,GRAB,BABA,NVDA,ANET,NFLX,ASML,RKLB,NVO,TQQQ,XPEV,QBTS,MBLY. Best hedge strategies given current macro? Specific tickers, options ideas, or ETFs.`
-};
+  const rb=document.getElementById('ref-btn');
+  rb.disabled=true;rb.classList.add('spin');
 
-const LMSGS={
-dashboard:['Analyzing market conditions...','Scoring your 31 tickers...','Building visual dashboard...','Almost ready...'],
-watchlist:['Analyzing earnings, margins, FCF...','Checking analyst ratings...','Building signals board...'],
-macro:['Pulling macro indicators...','Analyzing Fed dynamics...','Mapping global risks...'],
-trends:['Mapping emerging themes...','Scoring momentum...','Finding radar plays...'],
-risk:['Assessing portfolio risk...','Running scenario analysis...','Building risk radar...'],
-news:['Scanning market headlines...','Finding watchlist stories...','Compiling news feed...'],
-events:['Scanning upcoming IPOs...','Pulling earnings calendar...','Building events board...']
-};
+  // show step-by-step loading UI
+  const area=document.getElementById('content-area');
+  area.innerHTML=`
+    <div class="loading-wrap">
+      <div class="loading-ring"></div>
+      <div class="loading-steps">
+        <div class="loading-step active" id="step-1"><div class="step-icon step-active">1</div>Fetching live Yahoo Finance data…</div>
+        <div class="loading-step" id="step-2"><div class="step-icon step-pending">2</div>Processing market data for 31 tickers</div>
+        <div class="loading-step" id="step-3"><div class="step-icon step-pending">3</div>AI scoring based on live fundamentals</div>
+        <div class="loading-step" id="step-4"><div class="step-icon step-pending">4</div>Building dashboard</div>
+      </div>
+      <div id="fetch-progress" style="font-family:var(--ff-mono);font-size:11px;color:var(--text3);margin-top:8px">0 / 37 symbols fetched</div>
+    </div>`;
 
-// GROQ CALL
+  function setStep(n){
+    for(let i=1;i<=4;i++){
+      const el=document.getElementById(`step-${i}`);
+      const icon=el?.querySelector('.step-icon');
+      if(!el)continue;
+      if(i<n){el.classList.add('done');el.classList.remove('active');if(icon){icon.className='step-icon step-done';icon.textContent='✓';}}
+      else if(i===n){el.classList.add('active');if(icon){icon.className='step-icon step-active';icon.textContent=i;}}
+    }
+  }
+
+  // STEP 1: Fetch live data
+  let allData={};
+  try{
+    allData=await fetchAllLiveData((done,total)=>{
+      const el=document.getElementById('fetch-progress');
+      if(el)el.textContent=`${done} / ${total} symbols fetched`;
+    });
+  }catch(e){console.warn('Live data fetch error',e);}
+
+  setStep(2);
+  // split watchlist vs indices
+  WATCHLIST.forEach(w=>{if(allData[w.ticker])liveData[w.ticker]=allData[w.ticker];});
+  INDICES.forEach(s=>{if(allData[s])indexData.push({symbol:s,...allData[s]});});
+
+  const fetchedCount=Object.keys(liveData).length;
+  const fetchSuccess=fetchedCount>0;
+
+  setStep(3);
+
+  // build live data context string for Groq
+  const liveContext=buildLiveContext();
+
+  // STEP 3: Ask Groq to score using live data
+  let dashData=null;
+  try{
+    dashData=await groqCall(buildDashboardPrompt(liveContext),3000);
+  }catch(e){console.warn('Groq error',e);}
+
+  setStep(4);
+
+  if(!dashData){
+    area.innerHTML=`<div class="err-box">Could not generate AI analysis. Please check your Groq key and refresh.</div>`;
+    rb.disabled=false;rb.classList.remove('spin');return;
+  }
+
+  // inject live prices into scores
+  if(dashData.watchlist_scores){
+    dashData.watchlist_scores=dashData.watchlist_scores.map(s=>{
+      const ld=liveData[s.ticker];
+      if(ld)s._live=ld;
+      return s;
+    });
+  }
+
+  cache.dashboard=dashData;
+  window._scores=dashData.watchlist_scores||[];
+
+  // render index bar with live data
+  renderIndexBar(dashData.indices||[]);
+
+  // show data status
+  showDataStatus(fetchedCount,fetchSuccess);
+
+  renderTab('dashboard',dashData);
+  rb.disabled=false;rb.classList.remove('spin');updTime();
+}
+
+function buildLiveContext(){
+  const lines=['=== LIVE MARKET DATA (from Yahoo Finance, fetched right now) ===\n'];
+  WATCHLIST.forEach(w=>{
+    const d=liveData[w.ticker];
+    if(!d){lines.push(`${w.ticker} (${w.name}): data unavailable`);return;}
+    const chg=d.change_pct!=null?d.change_pct.toFixed(2)+'%':'N/A';
+    const mo=d.monthly_chg!=null?d.monthly_chg.toFixed(1)+'%':'N/A';
+    const pe=d.pe?d.pe.toFixed(1)+'x':'N/A';
+    const eps=d.eps?'$'+d.eps.toFixed(2):'N/A';
+    const tgt=d.target?'$'+d.target.toFixed(2):'N/A';
+    const mc=d.mktcap?fmtMktCap(d.mktcap):'N/A';
+    const hi=d.high52?'$'+d.high52.toFixed(2):'N/A';
+    const lo=d.low52?'$'+d.low52.toFixed(2):'N/A';
+    lines.push(`${w.ticker} (${w.name}): Price $${d.price?.toFixed(2)||'N/A'} | Day ${chg} | Month ${mo} | P/E ${pe} | EPS(TTM) ${eps} | Analyst PT ${tgt} | MktCap ${mc} | 52W ${lo}-${hi}`);
+  });
+  return lines.join('\n');
+}
+
+function showDataStatus(count,success){
+  const bar=document.getElementById('data-status-bar');
+  const total=WATCHLIST.length;
+  const failed=total-count;
+  bar.style.display='block';
+  bar.innerHTML=`<div class="dsb-inner">
+    <div class="dsb-left">
+      <div class="dsb-item"><span class="dsb-dot dsb-green"></span>Yahoo Finance: ${count}/${total} tickers live</div>
+      ${failed>0?`<div class="dsb-item"><span class="dsb-dot dsb-amber"></span>${failed} using AI estimates</div>`:''}
+      <div class="dsb-item"><span class="dsb-dot dsb-green"></span>AI scoring: based on live fundamentals</div>
+    </div>
+    <div class="dsb-right">Data as of ${new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}</div>
+  </div>`;
+  if(success)document.getElementById('data-pill').style.display='flex';
+}
+
+// ─── INDIVIDUAL TAB LOADS (non-dashboard) ─────────────────────────────────────
 async function loadTab(tab){
   const rb=document.getElementById('ref-btn');
   rb.disabled=true;rb.classList.add('spin');
   document.getElementById('actions').style.display='none';
   destroyCharts();
-  const msgs=LMSGS[tab]||LMSGS.dashboard;
+  const msgs={
+    watchlist:['Analyzing live prices & fundamentals...','Scoring against real P/E & EPS data...','Building signals board...'],
+    macro:['Pulling macro indicators...','Analyzing Fed dynamics...','Mapping global risks...'],
+    trends:['Mapping emerging themes...','Scoring momentum...','Finding radar plays...'],
+    risk:['Assessing portfolio risk...','Running scenario analysis...','Building radar...'],
+    news:['Scanning headlines...','Finding watchlist stories...','Compiling feed...'],
+    events:['Scanning IPO pipeline...','Pulling earnings calendar...','Building events board...']
+  };
+  const m=msgs[tab]||['Loading...'];
   let mi=0;
   const area=document.getElementById('content-area');
-  area.innerHTML=`<div class="loading-wrap"><div class="loading-ring"></div><div class="loading-label" id="lmsg">${msgs[0]}</div></div>`;
-  const iv=setInterval(()=>{mi=(mi+1)%msgs.length;const el=document.getElementById('lmsg');if(el)el.textContent=msgs[mi];else clearInterval(iv);},2200);
+  area.innerHTML=`<div class="loading-wrap"><div class="loading-ring"></div><div style="font-family:var(--ff-mono);font-size:11px;color:var(--text3);letter-spacing:.07em" id="lmsg">${m[0]}</div></div>`;
+  const iv=setInterval(()=>{mi=(mi+1)%m.length;const el=document.getElementById('lmsg');if(el)el.textContent=m[mi];else clearInterval(iv);},2200);
+
   try{
-    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${groqKey}`},
-      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'user',content:P[tab]}],temperature:0.3,max_tokens:3500})
-    });
+    let prompt='';
+    // include live data context for watchlist tab
+    if(tab==='watchlist'&&Object.keys(liveData).length>0){
+      prompt=buildWatchlistPrompt(buildLiveContext());
+    }else{
+      prompt=PROMPTS[tab];
+    }
+    const parsed=await groqCall(prompt,tab==='dashboard'?3000:2500);
     clearInterval(iv);
-    if(!res.ok){
-      const err=await res.json().catch(()=>({}));
-      area.innerHTML=`<div class="err-box">${res.status===401?'Invalid API key. <button onclick="logout()" style="background:none;border:none;color:var(--blue);cursor:pointer;text-decoration:underline;">Change key</button>':'Error: '+(err?.error?.message||'Unknown error — please refresh.')}</div>`;
-      document.getElementById('actions').style.display='flex';rb.disabled=false;rb.classList.remove('spin');return;
-    }
-    const d=await res.json();
-    let raw=(d.choices?.[0]?.message?.content||'{}').trim();
-    // strip markdown fences
-    raw=raw.replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();
-    let parsed;
-    try{parsed=JSON.parse(raw);}
-    catch(pe){
-      const m=raw.match(/\{[\s\S]*\}/);
-      if(m){try{parsed=JSON.parse(m[0]);}catch(e2){parsed=null;}}
-    }
-    if(!parsed){
-      area.innerHTML=`<div class="err-box">Could not parse AI response. Please refresh and try again.</div>`;
-      document.getElementById('actions').style.display='flex';rb.disabled=false;rb.classList.remove('spin');return;
-    }
     cache[tab]=parsed;
-    // cache indices for persistent bar
-    if(tab==='dashboard'&&parsed.indices) renderIndexBar(parsed.indices);
     renderTab(tab,parsed);
   }catch(e){
     clearInterval(iv);
-    area.innerHTML=`<div class="err-box">Network error — check connection and refresh.</div>`;
+    let msg='Network error — check connection and refresh.';
+    if(e?.status===401)msg='Invalid API key. <button onclick="logout()" style="background:none;border:none;color:var(--blue);cursor:pointer;text-decoration:underline;">Change key</button>';
+    else if(e instanceof SyntaxError)msg='Could not parse AI response — please refresh.';
+    else if(e?.message)msg=`Error: ${e.message}`;
+    area.innerHTML=`<div class="err-box">${msg}</div>`;
     document.getElementById('actions').style.display='flex';
   }
   rb.disabled=false;rb.classList.remove('spin');updTime();
 }
 
-// INDEX BAR
-function renderIndexBar(indices){
-  const bar=document.getElementById('index-bar');
-  bar.style.display='flex';
-  const tc=t=>t==='up'?'up':t==='down'?'dn':'flat';
-  const ti=t=>t==='up'?'▲ ':t==='down'?'▼ ':' ';
-  bar.innerHTML=indices.map(idx=>`
-    <div class="index-item">
-      <div class="index-name">${idx.name}</div>
-      <div class="index-val">${idx.value}</div>
-      <div class="index-chg ${tc(idx.trend)}">${ti(idx.trend)}${idx.change}</div>
-      <div class="index-tooltip">${idx.analysis||''}</div>
-    </div>`).join('');
+// ─── GROQ CALL ────────────────────────────────────────────────────────────────
+async function groqCall(prompt,maxTokens=2500){
+  const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':`Bearer ${groqKey}`},
+    body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'user',content:prompt}],temperature:0.25,max_tokens:maxTokens})
+  });
+  if(!res.ok){const err=await res.json().catch(()=>({}));throw{status:res.status,message:err?.error?.message||'Unknown error'};}
+  const d=await res.json();
+  let raw=(d.choices?.[0]?.message?.content||'{}').trim();
+  raw=raw.replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();
+  const s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+  if(s!==-1&&e!==-1)raw=raw.slice(s,e+1);
+  return JSON.parse(raw);
 }
 
-// RENDER ROUTER
+// ─── PROMPTS ──────────────────────────────────────────────────────────────────
+function buildDashboardPrompt(liveCtx){
+  return`You are an elite financial analyst. Today is ${TODAY}. You have been given LIVE REAL-TIME market data fetched directly from Yahoo Finance RIGHT NOW. Use this data as your primary source for all scoring and analysis. Do NOT rely on training memory for prices, P/E ratios, or recent performance — the live data below supersedes everything.
+
+${liveCtx}
+
+Based on this live data, respond ONLY with valid JSON (no markdown, no fences):
+{"indices":[{"name":"S&P 500","value":"<from SPY live data>","change_daily":"<day change%>","change_monthly":"<monthly change%>","trend":"<up|down|flat>","daily_analysis":"<1-2 sentences specific to today's move>"},{"name":"NASDAQ","value":"<QQQ>","change_daily":"<>","change_monthly":"<>","trend":"<up|down|flat>","daily_analysis":"<>"},{"name":"Dow Jones","value":"<DIA>","change_daily":"<>","change_monthly":"<>","trend":"<up|down|flat>","daily_analysis":"<>"},{"name":"Russell 2k","value":"<IWM>","change_daily":"<>","change_monthly":"<>","trend":"<up|down|flat>","daily_analysis":"<>"},{"name":"10Y Yield","value":"<TNX>","change_daily":"<>","change_monthly":"<>","trend":"<up|down|flat>","daily_analysis":"<>"},{"name":"Oil WTI","value":"<USO>","change_daily":"<>","change_monthly":"<>","trend":"<up|down|flat>","daily_analysis":"<>"}],"market_pulse":{"sentiment":<0-100>,"sentiment_label":"<Fear|Caution|Neutral|Optimism|Greed>","headline":"<one sharp sentence>","detail":"<2-3 sentences>"},"watchlist_scores":[
+{"ticker":"NVDA","company":"NVIDIA","score":<1-10 based on live P/E, price momentum, analyst target upside>,"sentiment":"<bullish|bearish|neutral>","note":"<8 words referencing live data>","analysis":"<2-3 sentences citing actual live price, P/E, analyst target, monthly performance>","analyst_detail":"<any recent upgrade/downgrade>","breakdown":{"earnings":<0-100>,"valuation":<0-100 — invert if P/E is very high>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100 — based on analyst PT vs current price>,"technicals":<0-100 — based on monthly change and 52W position>,"news_catalysts":<0-100>}},
+{"ticker":"AMD","company":"Advanced Micro Devices","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<2-3 sentences with live data>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"GOOGL","company":"Alphabet","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"CRWD","company":"CrowdStrike","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"TSM","company":"Taiwan Semiconductor","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"MELI","company":"MercadoLibre","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"ASML","company":"ASML Holding","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"NFLX","company":"Netflix","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"SOFI","company":"SoFi Technologies","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"RKLB","company":"Rocket Lab USA","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"SHOP","company":"Shopify","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"ISRG","company":"Intuitive Surgical","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"BABA","company":"Alibaba","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"GRAB","company":"Grab Holdings","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"NVO","company":"Novo Nordisk","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"ANET","company":"Arista Networks","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"CPNG","company":"Coupang","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"QBTS","company":"D-Wave Quantum","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"XPEV","company":"XPeng","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"MBLY","company":"Mobileye","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"UPS","company":"United Parcel Service","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"CART","company":"Instacart","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"MOD","company":"Modine Manufacturing","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"CYPH","company":"Cipher Mining","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"DNA","company":"Ginkgo Bioworks","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"DOCS","company":"Doximity","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"VOO","company":"Vanguard S&P 500 ETF","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"VTI","company":"Vanguard Total Market ETF","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"QQQ","company":"Invesco QQQ ETF","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"SCHG","company":"Schwab Large Cap Growth ETF","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}},
+{"ticker":"TQQQ","company":"ProShares UltraPro QQQ","score":<1-10>,"sentiment":"<>","note":"<8 words>","analysis":"<>","analyst_detail":"<>","breakdown":{"earnings":<0-100>,"valuation":<0-100>,"margins":<0-100>,"growth":<0-100>,"analyst_sentiment":<0-100>,"technicals":<0-100>,"news_catalysts":<0-100>}}
+],"top_picks":[{"ticker":"<>","reason":"<1 sentence citing live data>","risk_reward":"<High|Medium|Low>","timeframe":"<Short|Medium|Long>"},{"ticker":"<>","reason":"<>","risk_reward":"<>","timeframe":"<>"},{"ticker":"<>","reason":"<>","risk_reward":"<>","timeframe":"<>"}],"risks":[{"title":"<>","desc":"<1-2 sentences>","level":"<HIGH|MED|LOW>"},{"title":"<>","desc":"<>","level":"<HIGH|MED|LOW>"},{"title":"<>","desc":"<>","level":"<HIGH|MED|LOW>"},{"title":"<>","desc":"<>","level":"<HIGH|MED|LOW>"}],"sector_momentum":[{"sector":"AI/Semis","score":<0-100>},{"sector":"Cybersecurity","score":<0-100>},{"sector":"Fintech","score":<0-100>},{"sector":"EM eComm","score":<0-100>},{"sector":"Space","score":<0-100>},{"sector":"Healthcare AI","score":<0-100>},{"sector":"Autonomous","score":<0-100>}],"analyst_take":"<3-4 direct opinionated sentences based on live data. Reference actual prices and moves. No disclaimers.>"}`;
+}
+
+function buildWatchlistPrompt(liveCtx){
+  return`You are a sharp equities analyst. Today is ${TODAY}. You have LIVE data from Yahoo Finance:
+
+${liveCtx}
+
+Use this live data to drive your analysis. Respond ONLY with valid JSON, no markdown:
+{"movers":[{"ticker":"NVDA","company":"NVIDIA","action":"<BUY|HOLD|TRIM|WATCH>","note":"<12 words citing live data>","score":<1-10>,"analyst_change":"<Upgraded|Downgraded|Initiated|No change>","analyst_detail":"<firm, rating, PT if known>"},{"ticker":"AMD","company":"AMD","action":"<>","note":"<>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"GOOGL","company":"Alphabet","action":"<>","note":"<>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"CRWD","company":"CrowdStrike","action":"<>","note":"<>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"TSM","company":"Taiwan Semi","action":"<>","note":"<>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"MELI","company":"MercadoLibre","action":"<>","note":"<>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"SHOP","company":"Shopify","action":"<>","note":"<>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"NFLX","company":"Netflix","action":"<>","note":"<>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"SOFI","company":"SoFi Technologies","action":"<>","note":"<>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"},{"ticker":"RKLB","company":"Rocket Lab USA","action":"<>","note":"<>","score":<1-10>,"analyst_change":"<>","analyst_detail":"<>"}],"catalyst_watch":[{"ticker":"<>","event":"<catalyst>","timeframe":"<this week|this month|next quarter>","impact":"<high|medium|low>"},{"ticker":"<>","event":"<>","timeframe":"<>","impact":"<>"},{"ticker":"<>","event":"<>","timeframe":"<>","impact":"<>"},{"ticker":"<>","event":"<>","timeframe":"<>","impact":"<>"},{"ticker":"<>","event":"<>","timeframe":"<>","impact":"<>"}],"comparison":{"tickers":["NVDA","AMD","CRWD","SHOP","MELI"],"growth":[<0-100>,<0-100>,<0-100>,<0-100>,<0-100>],"value":[<0-100>,<0-100>,<0-100>,<0-100>,<0-100>],"momentum":[<0-100>,<0-100>,<0-100>,<0-100>,<0-100>]},"additions":[{"ticker":"<not on list>","thesis":"<1 sentence>","sector":"<sector>"},{"ticker":"<>","thesis":"<>","sector":"<>"},{"ticker":"<>","thesis":"<>","sector":"<>"}]}`;
+}
+
+const PROMPTS={
+macro:`You are a macro strategist. Today is ${TODAY}. Fed Chair Powell term expires May 15 2026. Respond ONLY with valid JSON, no markdown:
+{"indicators":[{"name":"Fed Rate","value":"<X.XX%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"CPI YoY","value":"<X.X%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"GDP Growth","value":"<X.X%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"Unemployment","value":"<X.X%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"10Y Yield","value":"<X.XX%>","trend":"<up|down|flat>","color":"<green|red|amber>"},{"name":"DXY","value":"<XXX.X>","trend":"<up|down|flat>","color":"<green|red|amber>"}],"fed_stance":{"score":<0-100>,"label":"<Dovish|Leaning Dovish|Neutral|Leaning Hawkish|Hawkish>","detail":"<2-3 sentences on stance, next move, Powell transition risk>"},"global_risks":[{"region":"US","risk":"<main risk>","severity":<0-100>},{"region":"China","risk":"<main risk>","severity":<0-100>},{"region":"Middle East","risk":"<main risk>","severity":<0-100>},{"region":"Europe","risk":"<main risk>","severity":<0-100>},{"region":"EM","risk":"<main risk>","severity":<0-100>}],"calendar":[{"date":"<e.g. Mon May 6>","event":"<name>","description":"<1-2 sentence plain English explanation and why it matters>","importance":"<high|medium|low>","url":"<official source URL>"},{"date":"<>","event":"<>","description":"<>","importance":"<>","url":"<>"},{"date":"<>","event":"<>","description":"<>","importance":"<>","url":"<>"},{"date":"<>","event":"<>","description":"<>","importance":"<>","url":"<>"},{"date":"<>","event":"<>","description":"<>","importance":"<>","url":"<>"},{"date":"<>","event":"<>","description":"<>","importance":"<>","url":"<>"},{"date":"<>","event":"<>","description":"<>","importance":"<>","url":"<>"}],"macro_take":"<3 sentences: macro backdrop for tech/growth/EM portfolio and biggest variable to watch>"}`,
+
+trends:`You are an emerging trends analyst. Today is ${TODAY}. Respond ONLY with valid JSON, no markdown:
+{"themes":[{"name":"AI Infrastructure","icon":"🤖","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["NVDA","ANET","GOOGL"],"headline":"<1 sentence>","detail":"<2 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"Space Economy","icon":"🚀","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["RKLB"],"headline":"<1 sentence about Rocket Lab USA>","detail":"<2 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"Quantum Computing","icon":"⚛️","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["QBTS"],"headline":"<1 sentence>","detail":"<2 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"Autonomous & Physical AI","icon":"🚗","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["MBLY","XPEV"],"headline":"<1 sentence>","detail":"<2 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"GLP-1 & Healthcare AI","icon":"💊","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["NVO","ISRG"],"headline":"<1 sentence>","detail":"<2 sentences>","radar_picks":["<ticker>","<ticker>"]},{"name":"Fintech & EM eComm","icon":"💳","momentum":<0-100>,"stage":"<Early|Growth|Peak|Mature>","watchlist_tickers":["SOFI","MELI","GRAB","CPNG"],"headline":"<1 sentence>","detail":"<2 sentences>","radar_picks":["<ticker>","<ticker>"]}]}`,
+
+risk:`You are a risk analyst. Today is ${TODAY}. Portfolio: SOFI,CRWD,GOOGL,TSM,AMD,MELI,ISRG,GRAB,BABA,NVDA,ANET,NFLX,ASML,RKLB,NVO,UPS,DOCS,CYPH,VTI,CPNG,CART,SHOP,QQQ,TQQQ,XPEV,QBTS,MBLY,MOD,DNA,SCHG,VOO. Respond ONLY with valid JSON, no markdown:
+{"overall_risk":<integer 0-100>,"risk_label":"<Very Low|Low|Moderate|Elevated|High|Extreme>","gauges":[{"name":"Macro Risk","score":<integer 0-100>,"color":"<green|amber|red>"},{"name":"Geopolitical","score":<integer 0-100>,"color":"<green|amber|red>"},{"name":"Valuation","score":<integer 0-100>,"color":"<green|amber|red>"},{"name":"Concentration","score":<integer 0-100>,"color":"<green|amber|red>"}],"immediate_risks":[{"title":"<risk>","desc":"<2 sentences>","level":"<HIGH|MED|LOW>","tickers":["<ticker>"]},{"title":"<risk>","desc":"<2 sentences>","level":"<HIGH|MED|LOW>","tickers":["<ticker>"]},{"title":"<risk>","desc":"<2 sentences>","level":"<HIGH|MED|LOW>","tickers":["<ticker>"]},{"title":"<risk>","desc":"<2 sentences>","level":"<HIGH|MED|LOW>","tickers":["<ticker>"]}],"ticker_risk_scores":[{"ticker":"TQQQ","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"CYPH","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"QBTS","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"RKLB","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"XPEV","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"DNA","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"GRAB","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"BABA","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"MBLY","risk":<integer 0-100>,"reason":"<6 words>"},{"ticker":"SOFI","risk":<integer 0-100>,"reason":"<6 words>"}],"tail_risks":[{"scenario":"<name>","impact":"<1-2 sentences>","probability":"<Very Low|Low|Medium>"},{"scenario":"<name>","impact":"<1-2 sentences>","probability":"<Very Low|Low|Medium>"},{"scenario":"<name>","impact":"<1-2 sentences>","probability":"<Very Low|Low|Medium>"}],"risk_take":"<2-3 sentences on vulnerability and hedging>"}`,
+
+news:`You are a financial news analyst. Today is ${TODAY}. Watchlist: SOFI,CRWD,GOOGL,TSM,AMD,MELI,ISRG,GRAB,BABA,NVDA,ANET,NFLX,ASML,RKLB,NVO,UPS,DOCS,CYPH,CPNG,CART,SHOP,TQQQ,XPEV,QBTS,MBLY,MOD. Respond ONLY with valid JSON, no markdown:
+{"market_news":[{"headline":"<headline>","summary":"<2 sentences>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<source>"},{"headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"},{"headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"},{"headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"},{"headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"}],"watchlist_news":[{"ticker":"<>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"},{"ticker":"<>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"},{"ticker":"<>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"},{"ticker":"<>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"},{"ticker":"<>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"},{"ticker":"<>","company":"<>","headline":"<>","summary":"<>","sentiment":"<bullish|bearish|neutral>","url":"<url>","source":"<>"}]}`,
+
+events:`You are a financial markets expert. Today is ${TODAY}. Respond ONLY with valid JSON, no markdown:
+{"upcoming_ipos":[{"ticker":"<expected ticker>","company":"<name>","sector":"<sector>","date":"<date>","valuation":"<est valuation>","description":"<2 sentences>","hype":"<High|Medium|Low>"},{"ticker":"<>","company":"<>","sector":"<>","date":"<>","valuation":"<>","description":"<>","hype":"<High|Medium|Low>"},{"ticker":"<>","company":"<>","sector":"<>","date":"<>","valuation":"<>","description":"<>","hype":"<High|Medium|Low>"},{"ticker":"<>","company":"<>","sector":"<>","date":"<>","valuation":"<>","description":"<>","hype":"<High|Medium|Low>"}],"major_earnings":[{"ticker":"<>","company":"<>","date":"<>","period":"<Q1 2026>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":true,"notes":"<1 sentence>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"},{"ticker":"<>","company":"<>","date":"<>","period":"<>","est_eps":"<>","est_revenue":"<>","last_result":"<beat|miss|in-line>","watchlist":false,"notes":"<>"}]}`
+};
+
+const QP={
+semiconductor:`Today is ${TODAY}. Deep dive: NVDA, AMD, ASML, TSM semiconductor thesis Q2/Q3 2026. Current setup, catalysts, China risk, AI demand, valuation, bull/bear case. Specific and opinionated. No disclaimers.`,
+portfolio_rank:`Today is ${TODAY}. Rank by risk/reward: SOFI,CRWD,GOOGL,TSM,AMD,MELI,ISRG,GRAB,BABA,NVDA,ANET,SCHG,NFLX,ASML,RKLB,NVO,SHOP. 1-sentence thesis and score 1-10 each. Direct.`,
+etf_suggest:`Today is ${TODAY}. I own VTI,VOO,QQQ,SCHG,TQQQ. Suggest 3-5 ETFs to add for better diversification and growth. Give ticker, thesis, gap it fills.`,
+best_opps:`Today is ${TODAY}. Most asymmetric opportunities in: SOFI,CRWD,GOOGL,TSM,AMD,MELI,ISRG,GRAB,BABA,NVDA,ANET,NFLX,ASML,RKLB,NVO,DOCS,CYPH,CPNG,CART,SHOP,XPEV,QBTS,MBLY,MOD. Top 3: bull, bear, why asymmetric. Direct.`,
+rklb_qbts:`Today is ${TODAY}. Deep dive on RKLB (Rocket Lab USA) and QBTS (D-Wave Quantum). Hype vs fundamentals, revenue, competition, bull/bear, fair value. No disclaimers.`,
+hedge:`Today is ${TODAY}. Portfolio: SOFI,CRWD,GOOGL,TSM,AMD,MELI,GRAB,BABA,NVDA,ANET,NFLX,ASML,RKLB,NVO,TQQQ,XPEV,QBTS,MBLY. Best hedge strategies now? Specific tickers, options, ETFs.`
+};
+
+// ─── INDEX BAR ────────────────────────────────────────────────────────────────
+function renderIndexBar(aiIndices){
+  const bar=document.getElementById('index-bar');
+  bar.style.display='grid';
+  // prefer live data, fall back to AI estimates
+  const items=aiIndices.map(idx=>{
+    const symMap={'S&P 500':'SPY','NASDAQ':'QQQ','Dow Jones':'DIA','Russell 2k':'IWM','10Y Yield':'^TNX','Oil WTI':'USO'};
+    const sym=symMap[idx.name];
+    const ld=sym?liveData[sym]||indexData.find(x=>x.symbol===sym):null;
+    const isLive=ld&&ld.price;
+    const price=isLive?'$'+ld.price.toFixed(2):(idx.value||'—');
+    const dayChg=isLive&&ld.change_pct!=null?(ld.change_pct>=0?'+':'')+ld.change_pct.toFixed(2)+'%':(idx.change_daily||'—');
+    const moChg=isLive&&ld.monthly_chg!=null?(ld.monthly_chg>=0?'+':'')+ld.monthly_chg.toFixed(1)+'%':(idx.change_monthly||'—');
+    const trend=isLive?ld.change_pct>0?'up':ld.change_pct<0?'dn':'flat':(idx.trend==='up'?'up':idx.trend==='down'?'dn':'flat');
+    const ti=trend==='up'?'▲':trend==='dn'?'▼':'—';
+    return`<div class="index-item">
+      <div class="index-name">${idx.name}</div>
+      <div class="index-val">${price}</div>
+      <div class="index-changes">
+        <span class="index-chg ${trend}">${ti} ${dayChg}</span>
+        <span class="index-period">· 1M: <span class="${trend}" style="font-family:var(--ff-mono);font-size:9px">${moChg}</span></span>
+      </div>
+      ${isLive?'<div class="index-source">● LIVE</div>':''}
+      <div class="index-tooltip">${idx.daily_analysis||''}</div>
+    </div>`;
+  });
+  bar.innerHTML=items.join('');
+}
+
+// ─── RENDER ROUTER ────────────────────────────────────────────────────────────
 function renderTab(tab,d){
   destroyCharts();
   const area=document.getElementById('content-area');
@@ -438,92 +836,92 @@ function renderTab(tab,d){
   requestAnimationFrame(()=>initCharts(tab,d));
 }
 
-// SVG SENTIMENT METER
+// ─── SVG HELPERS ──────────────────────────────────────────────────────────────
 function meterSVG(score,label){
   const pct=Math.max(0,Math.min(100,Number(score)||50));
-  const ang=(pct/100)*180;
-  const rad=(ang-90)*(Math.PI/180);
+  const ang=(pct/100)*180,rad=(ang-90)*(Math.PI/180);
   const nx=90+65*Math.cos(rad),ny=90+65*Math.sin(rad);
   const col=pct<30?'#e8334a':pct<45?'#e8940a':pct<55?'#6b7280':pct<70?'#00b87a':'#047857';
-  const dash=Math.round((pct/100)*220);
   return`<div class="meter-wrap">
     <svg viewBox="0 0 180 100" width="180" height="105" style="overflow:visible">
       <defs><linearGradient id="mg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e8334a"/><stop offset="50%" stop-color="#e8940a"/><stop offset="100%" stop-color="#00b87a"/></linearGradient></defs>
       <path d="M20,90 A70,70 0 0,1 160,90" fill="none" stroke="#e5e7eb" stroke-width="12" stroke-linecap="round"/>
-      <path d="M20,90 A70,70 0 0,1 160,90" fill="none" stroke="url(#mg)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${dash} 220"/>
+      <path d="M20,90 A70,70 0 0,1 160,90" fill="none" stroke="url(#mg)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${Math.round((pct/100)*220)} 220"/>
       <circle cx="${nx}" cy="${ny}" r="7" fill="${col}" stroke="#fff" stroke-width="2"/>
       <circle cx="90" cy="90" r="4" fill="#d1d5db"/>
       <text x="22" y="108" font-family="JetBrains Mono" font-size="9" fill="#9aa0b2">FEAR</text>
       <text x="138" y="108" font-family="JetBrains Mono" font-size="9" fill="#9aa0b2">GREED</text>
     </svg>
-    <div style="font-size:28px;font-weight:700;color:${col};letter-spacing:-.03em;margin-top:-4px;">${pct}</div>
-    <div style="font-size:13px;font-weight:600;color:${col};">${label||'Neutral'}</div>
+    <div style="font-size:28px;font-weight:700;color:${col};letter-spacing:-.03em;margin-top:-4px">${pct}</div>
+    <div style="font-size:13px;font-weight:600;color:${col}">${label||'Neutral'}</div>
   </div>`;
 }
-
-// SVG GAUGE
 function gaugeArc(score,color,name){
   const c=color==='red'?'#e8334a':color==='amber'?'#e8940a':'#00b87a';
   const s=Math.max(0,Math.min(100,Number(score)||0));
-  const r=32,circ=2*Math.PI*r,dashLen=(s/100)*circ*0.75;
+  const r=32,circ=2*Math.PI*r,dl=(s/100)*circ*0.75;
   return`<div class="gauge-item">
     <svg viewBox="0 0 80 80" width="72" height="72" style="transform:rotate(-135deg);overflow:visible">
       <circle cx="40" cy="40" r="${r}" fill="none" stroke="#e5e7eb" stroke-width="7" stroke-dasharray="${circ*0.75} ${circ*0.25}" stroke-linecap="round"/>
-      <circle cx="40" cy="40" r="${r}" fill="none" stroke="${c}" stroke-width="7" stroke-dasharray="${dashLen} ${circ}" stroke-linecap="round"/>
+      <circle cx="40" cy="40" r="${r}" fill="none" stroke="${c}" stroke-width="7" stroke-dasharray="${dl} ${circ}" stroke-linecap="round"/>
     </svg>
-    <div style="margin-top:-4px;font-family:var(--ff-mono);font-size:13px;font-weight:600;color:${c};">${s}</div>
+    <div style="margin-top:-4px;font-family:var(--ff-mono);font-size:13px;font-weight:600;color:${c}">${s}</div>
     <div class="gauge-label">${name}</div>
   </div>`;
 }
 
-// BUILD DASHBOARD
+// ─── BUILD DASHBOARD ──────────────────────────────────────────────────────────
 function buildDashboard(d){
   const mp=d.market_pulse||{};
   const scores=d.watchlist_scores||[];
   const picks=d.top_picks||[];
   const risks=d.risks||[];
   const sectors=d.sector_momentum||[];
+  window._scores=scores;
 
   const hmClass=s=>{const n=Number(s);return n>=8?'hm-strong-bull':n>=6?'hm-bull':n<=2?'hm-strong-bear':n<=4?'hm-bear':'hm-neutral';};
-  const hmHTML=scores.map(s=>`<div class="hm-cell ${hmClass(s.score)}" title="${s.note||''}"><span class="hm-ticker">${s.ticker}</span><span class="hm-score">${s.score}/10</span></div>`).join('');
+  const hmHTML=scores.map(s=>{
+    const ld=liveData[s.ticker];
+    const priceStr=ld?.price?`$${ld.price.toFixed(0)}`:'';
+    return`<div class="hm-cell ${hmClass(s.score)}" onclick="openScoreModal('${s.ticker}')" title="Click for live breakdown">
+      <span class="hm-ticker">${s.ticker}</span>
+      <span class="hm-score">${s.score}/10</span>
+      ${priceStr?`<span class="hm-price">${priceStr}</span>`:''}
+    </div>`;
+  }).join('');
 
-  const pickHTML=picks.map(p=>`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;">
-    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-family:var(--ff-mono);font-size:14px;font-weight:600;">${p.ticker}</span><span class="card-badge cb-blue">${p.timeframe}</span></div>
-    <div style="font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:6px;">${p.reason}</div>
+  const pickHTML=picks.map(p=>`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-family:var(--ff-mono);font-size:14px;font-weight:600">${p.ticker}</span><span class="card-badge cb-blue">${p.timeframe}</span></div>
+    <div style="font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:6px">${p.reason}</div>
     <span class="card-badge ${p.risk_reward==='High'?'cb-amber':p.risk_reward==='Low'?'cb-green':'cb-blue'}">R/R: ${p.risk_reward}</span>
   </div>`).join('');
 
-  const riskHTML=risks.map(r=>`<div class="risk-item"><span class="risk-badge ${r.level==='HIGH'?'rb-high':r.level==='MED'?'rb-med':'rb-low'}">${r.level}</span><div><div class="risk-title">${r.title}</div><div class="risk-desc">${r.desc}</div></div></div>`).join('');
-
-  const sectorHTML=sectors.map(s=>`<div class="tc-item">
-    <div class="tc-label">${s.sector}</div>
-    <div class="tc-bar-bg"><div class="tc-bar-fill" data-w="${s.score}" style="background:${Number(s.score)>=70?'linear-gradient(90deg,#00b87a,#34d399)':Number(s.score)>=45?'linear-gradient(90deg,#2563eb,#60a5fa)':'linear-gradient(90deg,#e8940a,#fbbf24)'}"></div></div>
-    <div class="tc-val">${s.score}</div>
-  </div>`).join('');
+  const rHTML=risks.map(r=>`<div class="risk-item"><span class="risk-badge ${r.level==='HIGH'?'rb-high':r.level==='MED'?'rb-med':'rb-low'}">${r.level}</span><div><div class="risk-title">${r.title}</div><div class="risk-desc">${r.desc}</div></div></div>`).join('');
+  const sHTML=sectors.map(s=>`<div class="tc-item"><div class="tc-label">${s.sector}</div><div class="tc-bar-bg"><div class="tc-bar-fill" data-w="${s.score}" style="background:${Number(s.score)>=70?'linear-gradient(90deg,#00b87a,#34d399)':Number(s.score)>=45?'linear-gradient(90deg,#2563eb,#60a5fa)':'linear-gradient(90deg,#e8940a,#fbbf24)'}"></div></div><div class="tc-val">${s.score}</div></div>`).join('');
 
   return`
   <div class="grid g32">
     <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">📊</div>Watchlist Heatmap</div><span class="card-badge cb-blue">ALL 31 TICKERS</span></div>
+      <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">📊</div>Watchlist Heatmap</div><span class="card-badge cb-green">LIVE PRICES · CLICK FOR BREAKDOWN</span></div>
       <div class="heatmap-grid">${hmHTML}</div>
-      <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;">
-        <span style="font-size:11px;color:var(--text3);">■ <span style="color:#047857">Strong Bull (8-10)</span></span>
-        <span style="font-size:11px;color:var(--text3);">■ <span style="color:#059669">Bull (6-7)</span></span>
-        <span style="font-size:11px;color:var(--text3);">■ <span style="color:#6b7280">Neutral (5)</span></span>
-        <span style="font-size:11px;color:var(--text3);">■ <span style="color:#dc2626">Bear (3-4)</span></span>
-        <span style="font-size:11px;color:var(--text3);">■ <span style="color:#991b1b">Strong Bear (1-2)</span></span>
+      <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+        <span style="font-size:11px;color:var(--text3)">■ <span style="color:#047857">Strong Bull (8-10)</span></span>
+        <span style="font-size:11px;color:var(--text3)">■ <span style="color:#059669">Bull (6-7)</span></span>
+        <span style="font-size:11px;color:var(--text3)">■ <span style="color:#6b7280">Neutral (5)</span></span>
+        <span style="font-size:11px;color:var(--text3)">■ <span style="color:#dc2626">Bear (3-4)</span></span>
+        <span style="font-size:11px;color:var(--text3)">■ <span style="color:#991b1b">Strong Bear (1-2)</span></span>
       </div>
     </div>
-    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
       <div class="card-header" style="width:100%;margin-bottom:0"><div class="card-title"><div class="card-icon ci-amber">🎯</div>Market Sentiment</div></div>
       ${meterSVG(mp.sentiment,mp.sentiment_label)}
-      <div style="font-size:12.5px;color:var(--text2);text-align:center;padding:0 8px;line-height:1.6;">${mp.headline||''}</div>
+      <div style="font-size:12.5px;color:var(--text2);text-align:center;padding:0 8px;line-height:1.6">${mp.headline||''}</div>
     </div>
   </div>
   <div class="grid g23">
     <div class="card">
       <div class="card-header"><div class="card-title"><div class="card-icon ci-purple">🔥</div>Sector Momentum</div><span class="card-badge cb-purple">RANKED</span></div>
-      <div class="trend-compare">${sectorHTML}</div>
+      <div class="trend-compare">${sHTML}</div>
     </div>
     <div class="card">
       <div class="card-header"><div class="card-title"><div class="card-icon ci-green">⭐</div>Top Picks Today</div></div>
@@ -533,17 +931,17 @@ function buildDashboard(d){
   <div class="grid g2">
     <div class="card">
       <div class="card-header"><div class="card-title"><div class="card-icon ci-red">⚠️</div>Risk Radar</div></div>
-      <div class="risk-list">${riskHTML}</div>
+      <div class="risk-list">${rHTML}</div>
     </div>
     <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">📈</div>Top 10 Scores</div><span class="card-badge cb-blue">CHART</span></div>
-      <div class="chart-wrap" style="height:220px"><canvas id="scoreChart"></canvas></div>
+      <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">📈</div>Top 10 Scores</div><span class="card-badge cb-green">LIVE DATA SCORED · CLICK BAR</span></div>
+      <div class="chart-wrap" style="height:220px"><canvas id="scoreChart" style="cursor:pointer"></canvas></div>
     </div>
   </div>
-  <div class="analyst-card"><div class="analyst-title">✦ Analyst Take</div><div class="analyst-text">${d.analyst_take||''}</div></div>`;
+  <div class="analyst-card"><div class="analyst-title">✦ Analyst Take — based on live market data</div><div class="analyst-text">${d.analyst_take||''}</div></div>`;
 }
 
-// BUILD WATCHLIST
+// ─── BUILD WATCHLIST ──────────────────────────────────────────────────────────
 function buildWatchlist(d){
   const movers=d.movers||[];
   const cats=d.catalyst_watch||[];
@@ -553,30 +951,34 @@ function buildWatchlist(d){
   const ic={high:'cb-red',medium:'cb-amber',low:'cb-green'};
   const ach={Upgraded:'cb-green',Downgraded:'cb-red',Initiated:'cb-blue','No change':'cb-amber'};
 
-  const mRows=movers.map(m=>`<tr>
-    <td><div><span class="tt-sym">${m.ticker}</span><div style="font-size:10px;color:var(--text3);margin-top:1px;">${m.company||''}</div></div></td>
-    <td><span class="card-badge ${ac[m.action]||'cb-blue'}">${m.action}</span></td>
-    <td><div style="display:flex;align-items:center;gap:8px;"><div class="score-bar-bg"><div class="score-bar-fill" style="width:${Number(m.score||0)*10}%;background:${Number(m.score)>=7?'var(--green)':Number(m.score)>=5?'var(--blue)':'var(--red)'}"></div></div><span style="font-family:var(--ff-mono);font-size:10px;color:var(--text2);flex-shrink:0;">${m.score}/10</span></div></td>
-    <td style="color:var(--text2);font-size:12px;">${m.note}</td>
-    <td><span class="card-badge ${ach[m.analyst_change]||'cb-amber'}" style="white-space:nowrap;">${m.analyst_change}</span><div style="font-size:10px;color:var(--text3);margin-top:2px;max-width:180px;line-height:1.4;">${m.analyst_detail||''}</div></td>
-  </tr>`).join('');
+  const mRows=movers.map(m=>{
+    const ld=liveData[m.ticker];
+    const priceCell=ld?.price?`<div style="font-family:var(--ff-mono);font-size:11px;color:var(--text2)">$${ld.price.toFixed(2)} <span style="color:${(ld.change_pct||0)>=0?'var(--green)':'var(--red)'}">${(ld.change_pct||0)>=0?'+':''}${(ld.change_pct||0).toFixed(2)}%</span></div>`:'';
+    return`<tr>
+      <td><div><span class="tt-sym">${m.ticker}</span><div style="font-size:10px;color:var(--text3)">${m.company||''}</div>${priceCell}</div></td>
+      <td><span class="card-badge ${ac[m.action]||'cb-blue'}">${m.action}</span></td>
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="score-bar-bg"><div class="score-bar-fill" style="width:${Number(m.score||0)*10}%;background:${Number(m.score)>=7?'var(--green)':Number(m.score)>=5?'var(--blue)':'var(--red)'}"></div></div><span style="font-family:var(--ff-mono);font-size:10px;color:var(--text2);flex-shrink:0">${m.score}/10</span></div></td>
+      <td style="color:var(--text2);font-size:12px">${m.note}</td>
+      <td><span class="card-badge ${ach[m.analyst_change]||'cb-amber'}" style="white-space:nowrap">${m.analyst_change}</span><div style="font-size:10px;color:var(--text3);margin-top:2px;max-width:180px;line-height:1.4">${m.analyst_detail||''}</div></td>
+    </tr>`;
+  }).join('');
 
   const cRows=cats.map(c=>`<tr>
     <td><span class="tt-sym">${c.ticker}</span></td>
-    <td style="font-size:12px;color:var(--text2);">${c.event}</td>
-    <td style="font-family:var(--ff-mono);font-size:11px;color:var(--text3);">${c.timeframe}</td>
+    <td style="font-size:12px;color:var(--text2)">${c.event}</td>
+    <td style="font-family:var(--ff-mono);font-size:11px;color:var(--text3)">${c.timeframe}</td>
     <td><span class="card-badge ${ic[c.impact]||'cb-blue'}">${c.impact}</span></td>
   </tr>`).join('');
 
-  const addHTML=adds.map(a=>`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;">
-    <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-family:var(--ff-mono);font-size:13px;font-weight:600;">${a.ticker}</span><span class="card-badge cb-purple">${a.sector}</span></div>
-    <div style="font-size:12.5px;color:var(--text2);">${a.thesis}</div>
+  const addHTML=adds.map(a=>`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-family:var(--ff-mono);font-size:13px;font-weight:600">${a.ticker}</span><span class="card-badge cb-purple">${a.sector}</span></div>
+    <div style="font-size:12.5px;color:var(--text2)">${a.thesis}</div>
   </div>`).join('');
 
   return`
   <div class="card" style="margin-bottom:1.25rem">
-    <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">📋</div>Watchlist Signals</div><span class="card-badge cb-blue">FUNDAMENTALS + SENTIMENT SCORING</span></div>
-    <table class="ticker-table"><thead><tr><th>Ticker</th><th>Signal</th><th style="width:140px">Score</th><th>Key Catalyst</th><th>Analyst Activity</th></tr></thead><tbody>${mRows}</tbody></table>
+    <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">📋</div>Watchlist Signals</div><span class="card-badge cb-green">LIVE PRICES + AI SCORING</span></div>
+    <table class="ticker-table"><thead><tr><th>Ticker / Live Price</th><th>Signal</th><th style="width:140px">Score</th><th>Key Catalyst</th><th>Analyst Activity</th></tr></thead><tbody>${mRows}</tbody></table>
   </div>
   <div class="card" style="margin-bottom:1.25rem">
     <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">📈</div>Growth vs Value vs Momentum</div><span class="card-badge cb-blue">TOP 5 COMPARED</span></div>
@@ -594,82 +996,53 @@ function buildWatchlist(d){
   </div>`;
 }
 
-// BUILD MACRO
+// ─── BUILD MACRO ──────────────────────────────────────────────────────────────
 function buildMacro(d){
   const inds=d.indicators||[];
   const fed=d.fed_stance||{};
   const global=d.global_risks||[];
   const cal=d.calendar||[];
-  const iColors={green:'var(--green)',red:'var(--red)',amber:'var(--amber)'};
-
-  const indHTML=inds.map(i=>`<div class="macro-item">
-    <div class="macro-name">${i.name}</div>
-    <div class="macro-val" style="color:${iColors[i.color]||'var(--text)'}">${i.value}</div>
-    <div class="macro-trend" style="color:${iColors[i.color]||'var(--text2)'}">${i.trend==='up'?'↑ Rising':i.trend==='down'?'↓ Falling':'→ Stable'}</div>
-  </div>`).join('');
-
+  const iC={green:'var(--green)',red:'var(--red)',amber:'var(--amber)'};
+  const indHTML=inds.map(i=>`<div class="macro-item"><div class="macro-name">${i.name}</div><div class="macro-val" style="color:${iC[i.color]||'var(--text)'}">${i.value}</div><div class="macro-trend" style="color:${iC[i.color]||'var(--text2)'}">${i.trend==='up'?'↑ Rising':i.trend==='down'?'↓ Falling':'→ Stable'}</div></div>`).join('');
   const calIc={high:'cb-red',medium:'cb-amber',low:'cb-green'};
   const calHTML=cal.map(c=>`<tr>
-    <td style="font-family:var(--ff-mono);font-size:11px;color:var(--text3);white-space:nowrap;vertical-align:top;">${c.date}</td>
-    <td style="vertical-align:top;"><div style="font-size:12.5px;font-weight:500;color:var(--text);">${c.event}</div><div class="cal-desc">${c.description||''}</div>${c.url?`<a href="${c.url}" target="_blank" class="cal-link">Learn more ↗</a>`:''}</td>
-    <td style="vertical-align:top;"><span class="card-badge ${calIc[c.importance]||'cb-blue'}">${c.importance}</span></td>
+    <td style="font-family:var(--ff-mono);font-size:11px;color:var(--text3);white-space:nowrap;vertical-align:top">${c.date}</td>
+    <td style="vertical-align:top"><div style="font-size:12.5px;font-weight:500;color:var(--text)">${c.event}</div><div class="cal-desc">${c.description||''}</div>${c.url?`<a href="${c.url}" target="_blank" rel="noopener" class="cal-link">Learn more ↗</a>`:''}</td>
+    <td style="vertical-align:top"><span class="card-badge ${calIc[c.importance]||'cb-blue'}">${c.importance}</span></td>
   </tr>`).join('');
-
-  const fedScore=Math.max(0,Math.min(100,Number(fed.score)||50));
-
+  const fs=Math.max(0,Math.min(100,Number(fed.score)||50));
   return`
-  <div class="card" style="margin-bottom:1.25rem">
-    <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">🌐</div>Macro Indicators</div><span class="card-badge cb-blue">CURRENT</span></div>
-    <div class="macro-grid">${indHTML}</div>
-  </div>
+  <div class="card" style="margin-bottom:1.25rem"><div class="card-header"><div class="card-title"><div class="card-icon ci-blue">🌐</div>Macro Indicators</div><span class="card-badge cb-blue">CURRENT</span></div><div class="macro-grid">${indHTML}</div></div>
   <div class="grid g32">
     <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-amber">🏦</div>Fed Stance</div><span class="card-badge ${fedScore>60?'cb-red':fedScore<40?'cb-green':'cb-amber'}">${fed.label||'Neutral'}</span></div>
-      <div style="margin-bottom:14px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:11px;color:var(--text3)">Dovish</span><span style="font-size:11px;color:var(--text3)">Hawkish</span></div>
-        <div style="height:10px;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));border-radius:5px;position:relative">
-          <div style="position:absolute;top:-3px;left:${fedScore}%;transform:translateX(-50%);width:16px;height:16px;background:#fff;border:2.5px solid var(--blue);border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.15);transition:left 1.2s ease"></div>
-        </div>
-      </div>
+      <div class="card-header"><div class="card-title"><div class="card-icon ci-amber">🏦</div>Fed Stance</div><span class="card-badge ${fs>60?'cb-red':fs<40?'cb-green':'cb-amber'}">${fed.label||'Neutral'}</span></div>
+      <div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:11px;color:var(--text3)">Dovish</span><span style="font-size:11px;color:var(--text3)">Hawkish</span></div><div style="height:10px;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));border-radius:5px;position:relative"><div style="position:absolute;top:-3px;left:${fs}%;transform:translateX(-50%);width:16px;height:16px;background:#fff;border:2.5px solid var(--blue);border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.15)"></div></div></div>
       <div style="font-size:13px;color:var(--text2);line-height:1.7">${fed.detail||''}</div>
     </div>
-    <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-red">🌍</div>Global Risk Scores</div></div>
-      <div class="chart-wrap" style="height:200px"><canvas id="globalChart"></canvas></div>
-    </div>
+    <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon ci-red">🌍</div>Global Risk Scores</div></div><div class="chart-wrap" style="height:200px"><canvas id="globalChart"></canvas></div></div>
   </div>
-  <div class="card" style="margin-bottom:1.25rem">
-    <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">📅</div>This Week's Key Events</div><span class="card-badge cb-blue">US + GLOBAL · WITH DESCRIPTIONS</span></div>
-    <table class="cal-table"><thead><tr><th>Date</th><th>Event & Description</th><th>Impact</th></tr></thead><tbody>${calHTML}</tbody></table>
-  </div>
+  <div class="card" style="margin-bottom:1.25rem"><div class="card-header"><div class="card-title"><div class="card-icon ci-blue">📅</div>This Week's Key Events</div><span class="card-badge cb-blue">US + GLOBAL · DESCRIPTIONS + LINKS</span></div><table class="cal-table"><thead><tr><th>Date</th><th>Event & What It Means</th><th>Impact</th></tr></thead><tbody>${calHTML}</tbody></table></div>
   <div class="analyst-card"><div class="analyst-title">✦ Macro Bottom Line</div><div class="analyst-text">${d.macro_take||''}</div></div>`;
 }
 
-// BUILD TRENDS
+// ─── BUILD TRENDS ─────────────────────────────────────────────────────────────
 function buildTrends(d){
   const themes=d.themes||[];
-  const stageCols={Early:'cb-purple',Growth:'cb-blue',Peak:'cb-amber',Mature:'cb-green'};
+  const stC={Early:'cb-purple',Growth:'cb-blue',Peak:'cb-amber',Mature:'cb-green'};
   const themeHTML=themes.map(t=>`<div class="card">
-    <div class="card-header"><div class="card-title">${t.icon} ${t.name}</div><span class="card-badge ${stageCols[t.stage]||'cb-blue'}">${t.stage}</span></div>
-    <div style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:var(--text3)">Momentum</span><span style="font-family:var(--ff-mono);font-size:11px;color:var(--text2)">${t.momentum}/100</span></div>
-      <div style="height:8px;background:var(--surface);border-radius:4px;overflow:hidden"><div style="height:100%;width:${t.momentum}%;background:${Number(t.momentum)>=70?'linear-gradient(90deg,var(--green),#34d399)':Number(t.momentum)>=45?'linear-gradient(90deg,var(--blue),#60a5fa)':'linear-gradient(90deg,var(--amber),#fbbf24)'};border-radius:4px;transition:width 1.2s ease"></div></div>
-    </div>
+    <div class="card-header"><div class="card-title">${t.icon} ${t.name}</div><span class="card-badge ${stC[t.stage]||'cb-blue'}">${t.stage}</span></div>
+    <div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:var(--text3)">Momentum</span><span style="font-family:var(--ff-mono);font-size:11px;color:var(--text2)">${t.momentum}/100</span></div><div style="height:8px;background:var(--surface);border-radius:4px;overflow:hidden"><div style="height:100%;width:${t.momentum}%;background:${Number(t.momentum)>=70?'linear-gradient(90deg,var(--green),#34d399)':Number(t.momentum)>=45?'linear-gradient(90deg,var(--blue),#60a5fa)':'linear-gradient(90deg,var(--amber),#fbbf24)'};border-radius:4px"></div></div></div>
     <div style="font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:6px">${t.headline}</div>
     <div style="font-size:12.5px;color:var(--text2);line-height:1.7;margin-bottom:10px">${t.detail}</div>
     <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px">${(t.watchlist_tickers||[]).map(tk=>`<span class="card-badge cb-blue">${tk}</span>`).join('')}</div>
     ${t.radar_picks?.length?`<div style="font-size:11px;color:var(--text3);margin-bottom:4px">Radar picks:</div><div style="display:flex;gap:5px">${t.radar_picks.map(r=>`<span class="card-badge cb-purple">${r}</span>`).join('')}</div>`:''}
   </div>`).join('');
-
   return`
-  <div class="card" style="margin-bottom:1.25rem">
-    <div class="card-header"><div class="card-title"><div class="card-icon ci-purple">📡</div>Trend Momentum Comparison</div></div>
-    <div class="chart-wrap" style="height:240px"><canvas id="trendChart"></canvas></div>
-  </div>
+  <div class="card" style="margin-bottom:1.25rem"><div class="card-header"><div class="card-title"><div class="card-icon ci-purple">📡</div>Trend Momentum Comparison</div></div><div class="chart-wrap" style="height:240px"><canvas id="trendChart"></canvas></div></div>
   <div class="grid g3">${themeHTML}</div>`;
 }
 
-// BUILD RISK — fixed JSON parsing
+// ─── BUILD RISK ───────────────────────────────────────────────────────────────
 function buildRisk(d){
   const gauges=Array.isArray(d.gauges)?d.gauges:[];
   const risks=Array.isArray(d.immediate_risks)?d.immediate_risks:[];
@@ -677,117 +1050,51 @@ function buildRisk(d){
   const tails=Array.isArray(d.tail_risks)?d.tail_risks:[];
   const overall=Math.max(0,Math.min(100,Number(d.overall_risk)||50));
   const oCol=overall>=70?'var(--red)':overall>=45?'var(--amber)':'var(--green)';
-
-  const rHTML=risks.map(r=>`<div class="risk-item"><span class="risk-badge ${r.level==='HIGH'?'rb-high':r.level==='MED'?'rb-med':'rb-low'}">${r.level}</span>
-    <div><div class="risk-title">${r.title||''} ${(r.tickers||[]).map(t=>`<span class="card-badge cb-blue" style="font-size:9px;margin-left:3px">${t}</span>`).join('')}</div><div class="risk-desc">${r.desc||''}</div></div>
-  </div>`).join('');
-
-  const tailHTML=tails.map(t=>`<div style="background:var(--red-bg);border:1px solid rgba(232,51,74,.15);border-radius:10px;padding:12px 14px;margin-bottom:8px">
-    <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:12.5px;font-weight:600">${t.scenario||''}</span><span class="card-badge cb-amber">${t.probability||''}</span></div>
-    <div style="font-size:12.5px;color:var(--text2);line-height:1.6">${t.impact||''}</div>
-  </div>`).join('');
-
-  const gaugeHTML=gauges.map(g=>gaugeArc(g.score,g.color,g.name)).join('');
-
+  const rHTML=risks.map(r=>`<div class="risk-item"><span class="risk-badge ${r.level==='HIGH'?'rb-high':r.level==='MED'?'rb-med':'rb-low'}">${r.level}</span><div><div class="risk-title">${r.title||''} ${(r.tickers||[]).map(t=>`<span class="card-badge cb-blue" style="font-size:9px;margin-left:3px">${t}</span>`).join('')}</div><div class="risk-desc">${r.desc||''}</div></div></div>`).join('');
+  const tailHTML=tails.map(t=>`<div style="background:var(--red-bg);border:1px solid rgba(232,51,74,.15);border-radius:10px;padding:12px 14px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:12.5px;font-weight:600">${t.scenario||''}</span><span class="card-badge cb-amber">${t.probability||''}</span></div><div style="font-size:12.5px;color:var(--text2);line-height:1.6">${t.impact||''}</div></div>`).join('');
   return`
   <div class="grid g32" style="margin-bottom:1.25rem">
-    <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-red">⚠️</div>Immediate Risks</div></div>
-      <div class="risk-list">${rHTML||'<div style="color:var(--text3);font-size:13px;padding:1rem 0">No immediate risks identified.</div>'}</div>
-    </div>
+    <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon ci-red">⚠️</div>Immediate Risks</div></div><div class="risk-list">${rHTML||'<div style="color:var(--text3);font-size:13px;padding:1rem 0">No data — try refreshing.</div>'}</div></div>
     <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem">
-      <div style="text-align:center">
-        <div style="font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px">Overall Portfolio Risk</div>
-        <div style="font-size:56px;font-weight:700;letter-spacing:-.04em;color:${oCol};line-height:1">${overall}</div>
-        <div style="font-size:14px;font-weight:600;color:${oCol}">${d.risk_label||''}</div>
-      </div>
-      <div class="gauge-grid">${gaugeHTML||'<div style="color:var(--text3);font-size:12px;">Gauge data unavailable</div>'}</div>
+      <div style="text-align:center"><div style="font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px">Overall Portfolio Risk</div><div style="font-size:56px;font-weight:700;letter-spacing:-.04em;color:${oCol};line-height:1">${overall}</div><div style="font-size:14px;font-weight:600;color:${oCol}">${d.risk_label||''}</div></div>
+      <div class="gauge-grid">${gauges.length?gauges.map(g=>gaugeArc(g.score,g.color,g.name)).join(''):'<div style="color:var(--text3);font-size:12px">Gauge data unavailable</div>'}</div>
     </div>
   </div>
   <div class="grid g2" style="margin-bottom:1.25rem">
-    <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-red">🎯</div>Ticker Risk Scores</div><span class="card-badge cb-red">HIGHEST RISK 10</span></div>
-      <div class="chart-wrap" style="height:240px"><canvas id="riskChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-amber">🌪️</div>Tail Risk Scenarios</div></div>
-      ${tailHTML||'<div style="color:var(--text3);font-size:13px;padding:1rem 0">No tail risks identified.</div>'}
-    </div>
+    <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon ci-red">🎯</div>Ticker Risk Scores</div><span class="card-badge cb-red">HIGHEST RISK 10</span></div><div class="chart-wrap" style="height:240px"><canvas id="riskChart"></canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon ci-amber">🌪️</div>Tail Risk Scenarios</div></div>${tailHTML||'<div style="color:var(--text3);font-size:13px;padding:1rem 0">No data — try refreshing.</div>'}</div>
   </div>
   <div class="analyst-card"><div class="analyst-title">✦ Risk Bottom Line</div><div class="analyst-text">${d.risk_take||''}</div></div>`;
 }
 
-// BUILD NEWS
+// ─── BUILD NEWS ───────────────────────────────────────────────────────────────
 function buildNews(d){
   const market=d.market_news||[];
   const wl=d.watchlist_news||[];
-  const sentCls={bullish:'ns-bull',bearish:'ns-bear',neutral:'ns-neutral'};
-
-  const mHTML=market.map(n=>`<div class="news-item">
-    <div class="news-headline"><a href="${n.url||'#'}" target="_blank" rel="noopener">${n.headline}</a></div>
-    <div style="font-size:12.5px;color:var(--text2);line-height:1.6;margin:4px 0">${n.summary}</div>
-    <div class="news-meta">
-      <span class="news-source">${n.source||''}</span>
-      <span class="news-sentiment ${sentCls[n.sentiment]||'ns-neutral'}">${n.sentiment}</span>
-    </div>
-  </div>`).join('');
-
-  const wHTML=wl.map(n=>`<div class="news-item">
-    <div class="news-headline"><a href="${n.url||'#'}" target="_blank" rel="noopener">${n.headline}</a></div>
-    <div style="font-size:12.5px;color:var(--text2);line-height:1.6;margin:4px 0">${n.summary}</div>
-    <div class="news-meta">
-      <span class="news-ticker">${n.ticker}</span>
-      <span class="news-source">${n.company||''} · ${n.source||''}</span>
-      <span class="news-sentiment ${sentCls[n.sentiment]||'ns-neutral'}">${n.sentiment}</span>
-    </div>
-  </div>`).join('');
-
-  return`
-  <div class="grid g2">
-    <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-blue">🌍</div>Top Market Stories</div><span class="card-badge cb-blue">TODAY</span></div>
-      ${mHTML||'<div style="color:var(--text3);padding:1rem 0">No stories available.</div>'}
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-green">📰</div>Watchlist News</div><span class="card-badge cb-green">YOUR TICKERS</span></div>
-      ${wHTML||'<div style="color:var(--text3);padding:1rem 0">No watchlist stories available.</div>'}
-    </div>
+  const sC={bullish:'ns-bull',bearish:'ns-bear',neutral:'ns-neutral'};
+  const mHTML=market.map(n=>`<div class="news-item"><div class="news-headline"><a href="${n.url||'#'}" target="_blank" rel="noopener">${n.headline}</a></div><div style="font-size:12.5px;color:var(--text2);line-height:1.6;margin:3px 0">${n.summary}</div><div class="news-meta"><span class="news-source">${n.source||''}</span><span class="news-sent ${sC[n.sentiment]||'ns-neutral'}">${n.sentiment}</span></div></div>`).join('');
+  const wHTML=wl.map(n=>`<div class="news-item"><div class="news-headline"><a href="${n.url||'#'}" target="_blank" rel="noopener">${n.headline}</a></div><div style="font-size:12.5px;color:var(--text2);line-height:1.6;margin:3px 0">${n.summary}</div><div class="news-meta"><span class="news-ticker">${n.ticker}</span><span class="news-source">${n.company||''} · ${n.source||''}</span><span class="news-sent ${sC[n.sentiment]||'ns-neutral'}">${n.sentiment}</span></div></div>`).join('');
+  return`<div class="grid g2">
+    <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon ci-blue">🌍</div>Top Market Stories</div><span class="card-badge cb-blue">TODAY</span></div>${mHTML||'<div style="color:var(--text3);padding:1rem 0;font-size:13px">No stories — try refreshing.</div>'}</div>
+    <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon ci-green">📰</div>Watchlist News</div><span class="card-badge cb-green">YOUR TICKERS</span></div>${wHTML||'<div style="color:var(--text3);padding:1rem 0;font-size:13px">No watchlist stories — try refreshing.</div>'}</div>
   </div>`;
 }
 
-// BUILD EVENTS
+// ─── BUILD EVENTS ─────────────────────────────────────────────────────────────
 function buildEvents(d){
   const ipos=d.upcoming_ipos||[];
   const earnings=d.major_earnings||[];
-  const hype={High:'cb-red',Medium:'cb-amber',Low:'cb-green'};
-  const lr={beat:'cb-green',miss:'cb-red','in-line':'cb-blue'};
-
-  const ipoHTML=ipos.map(i=>`<div class="ipo-item">
-    <div><div class="ipo-ticker">${i.ticker}</div><span class="card-badge ${hype[i.hype]||'cb-blue'}" style="margin-top:4px;display:inline-block">${i.hype} hype</span></div>
-    <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">${i.company} <span style="font-size:11px;font-weight:400;color:var(--text3)">· ${i.sector}</span></div><div class="ipo-desc">${i.description}</div><div style="font-size:11px;color:var(--text3);margin-top:3px">Est. valuation: ${i.valuation}</div></div>
-    <div class="ipo-date">${i.date}</div>
-  </div>`).join('');
-
-  const earnHTML=earnings.map(e=>`<div class="earnings-item">
-    <div><div style="font-family:var(--ff-mono);font-size:13px;font-weight:600;color:var(--text)">${e.ticker}</div>${e.watchlist?`<span class="card-badge cb-blue" style="font-size:9px;margin-top:3px;display:inline-block">WATCHLIST</span>`:''}</div>
-    <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">${e.company} <span style="font-size:11px;font-weight:400;color:var(--text3)">· ${e.period}</span></div><div style="font-size:12px;color:var(--text2)">${e.notes}</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Est EPS: ${e.est_eps} · Est Rev: ${e.est_revenue}</div></div>
-    <div style="text-align:right"><div style="font-family:var(--ff-mono);font-size:11px;color:var(--text3)">${e.date}</div><span class="card-badge ${lr[e.last_result]||'cb-blue'}" style="margin-top:4px;display:inline-block">Last: ${e.last_result}</span></div>
-  </div>`).join('');
-
-  return`
-  <div class="grid g2">
-    <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-purple">🚀</div>Upcoming IPOs of Note</div><span class="card-badge cb-purple">NOTABLE ONLY</span></div>
-      ${ipoHTML||'<div style="color:var(--text3);padding:1rem 0">No notable IPOs in the near pipeline.</div>'}
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="card-title"><div class="card-icon ci-amber">📊</div>Major Earnings Reports</div><span class="card-badge cb-amber">THIS WEEK + UPCOMING</span></div>
-      ${earnHTML||'<div style="color:var(--text3);padding:1rem 0">No major earnings reports available.</div>'}
-    </div>
+  const hC={High:'cb-red',Medium:'cb-amber',Low:'cb-green'};
+  const lC={beat:'cb-green',miss:'cb-red','in-line':'cb-blue'};
+  const ipoHTML=ipos.map(i=>`<div style="display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--border)"><div><div style="font-family:var(--ff-mono);font-size:13px;font-weight:600">${i.ticker}</div><span class="card-badge ${hC[i.hype]||'cb-blue'}" style="margin-top:4px;display:inline-block">${i.hype}</span></div><div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">${i.company} <span style="font-size:11px;font-weight:400;color:var(--text3)">· ${i.sector}</span></div><div style="font-size:12.5px;color:var(--text2);line-height:1.5">${i.description}</div><div style="font-size:11px;color:var(--text3);margin-top:3px">Est. valuation: ${i.valuation}</div></div><div style="font-family:var(--ff-mono);font-size:11px;color:var(--text3);text-align:right;white-space:nowrap">${i.date}</div></div>`).join('');
+  const earnHTML=earnings.map(e=>`<div style="display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--border)"><div><div style="font-family:var(--ff-mono);font-size:13px;font-weight:600">${e.ticker}</div>${e.watchlist?`<span class="card-badge cb-blue" style="font-size:9px;margin-top:3px;display:inline-block">WATCHLIST</span>`:''}</div><div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">${e.company} <span style="font-size:11px;font-weight:400;color:var(--text3)">· ${e.period}</span></div><div style="font-size:12px;color:var(--text2)">${e.notes}</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Est EPS: ${e.est_eps} · Rev: ${e.est_revenue}</div></div><div style="text-align:right"><div style="font-family:var(--ff-mono);font-size:11px;color:var(--text3)">${e.date}</div><span class="card-badge ${lC[e.last_result]||'cb-blue'}" style="margin-top:4px;display:inline-block">Last: ${e.last_result}</span></div></div>`).join('');
+  return`<div class="grid g2">
+    <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon ci-purple">🚀</div>Upcoming IPOs of Note</div><span class="card-badge cb-purple">NOTABLE ONLY</span></div>${ipoHTML||'<div style="color:var(--text3);padding:1rem 0;font-size:13px">No notable IPOs in the near pipeline.</div>'}</div>
+    <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon ci-amber">📊</div>Major Earnings Reports</div><span class="card-badge cb-amber">THIS WEEK + UPCOMING</span></div>${earnHTML||'<div style="color:var(--text3);padding:1rem 0;font-size:13px">No major earnings data available.</div>'}</div>
   </div>`;
 }
 
-// CHARTS
+// ─── CHARTS ───────────────────────────────────────────────────────────────────
 function initCharts(tab,d){
   Chart.defaults.font.family='Plus Jakarta Sans';
   Chart.defaults.color='#9aa0b2';
@@ -796,8 +1103,21 @@ function initCharts(tab,d){
   if(tab==='dashboard'){
     setTimeout(()=>{document.querySelectorAll('[data-w]').forEach(el=>{el.style.width=el.dataset.w+'%';});},100);
     const scores=(d.watchlist_scores||[]).sort((a,b)=>Number(b.score)-Number(a.score)).slice(0,10);
+    window._scores=d.watchlist_scores||[];
     const sc=document.getElementById('scoreChart');
-    if(sc){const c=new Chart(sc,{type:'bar',data:{labels:scores.map(s=>s.ticker),datasets:[{data:scores.map(s=>Number(s.score)),backgroundColor:scores.map(s=>s.sentiment==='bullish'?'rgba(0,184,122,.85)':s.sentiment==='bearish'?'rgba(232,51,74,.85)':'rgba(107,114,128,.7)'),borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,animation:anim,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`Score: ${ctx.raw}/10`}}},scales:{y:{max:10,min:0,grid:{color:'rgba(0,0,0,.04)'},ticks:{stepSize:2}},x:{grid:{display:false}}}}});charts.push(c);}
+    if(sc){
+      // get live price for each ticker in chart
+      const labels=scores.map(s=>{
+        const ld=liveData[s.ticker];
+        return ld?.price?`${s.ticker}\n$${ld.price.toFixed(0)}`:s.ticker;
+      });
+      const c=new Chart(sc,{
+        type:'bar',
+        data:{labels:scores.map(s=>s.ticker),datasets:[{data:scores.map(s=>Number(s.score)),backgroundColor:scores.map(s=>s.sentiment==='bullish'?'rgba(0,184,122,.85)':s.sentiment==='bearish'?'rgba(232,51,74,.85)':'rgba(107,114,128,.7)'),borderRadius:6,borderSkipped:false}]},
+        options:{responsive:true,maintainAspectRatio:false,animation:anim,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{const s=scores[ctx.dataIndex];const ld=liveData[s?.ticker];return[`Score: ${ctx.raw}/10`,ld?.price?`Price: $${ld.price.toFixed(2)}`:'',ld?.pe?`P/E: ${ld.pe.toFixed(1)}x`:'',`Click for full breakdown`].filter(Boolean);}}}},scales:{y:{max:10,min:0,grid:{color:'rgba(0,0,0,.04)'},ticks:{stepSize:2}},x:{grid:{display:false}}},onClick:(e,els)=>{if(els.length){const ticker=scores[els[0].index]?.ticker;if(ticker)openScoreModal(ticker);}}}
+      });
+      charts.push(c);
+    }
   }
   if(tab==='watchlist'){
     const comp=d.comparison||{};
@@ -821,7 +1141,7 @@ function initCharts(tab,d){
   }
 }
 
-// QUICK ASK
+// ─── QUICK ASK ────────────────────────────────────────────────────────────────
 async function quickAsk(key){
   const prompt=QP[key];if(!prompt)return;
   cache={};currentTab='dashboard';
@@ -830,18 +1150,19 @@ async function quickAsk(key){
   document.getElementById('actions').style.display='none';
   const rb=document.getElementById('ref-btn');rb.disabled=true;rb.classList.add('spin');
   const area=document.getElementById('content-area');
-  area.innerHTML=`<div class="loading-wrap"><div class="loading-ring"></div><div class="loading-label">Analyzing...</div></div>`;
+  area.innerHTML=`<div class="loading-wrap"><div class="loading-ring"></div><div style="font-family:var(--ff-mono);font-size:11px;color:var(--text3);letter-spacing:.07em">Analyzing…</div></div>`;
   try{
-    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${groqKey}`},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'user',content:prompt}],temperature:0.6,max_tokens:1200})});
-    const d=await res.json();
-    const text=d.choices?.[0]?.message?.content||'No response.';
-    area.innerHTML=`<div class="analyst-card" style="animation:up .4s ease both"><div class="analyst-title">✦ Analysis</div><div class="analyst-text">${text}</div></div>`;
+    const liveCtx=Object.keys(liveData).length>0?'\n\nLIVE CONTEXT:\n'+buildLiveContext():'';
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${groqKey}`},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'user',content:prompt+liveCtx}],temperature:0.6,max_tokens:1200})});
+    const dj=await res.json();
+    const text=dj.choices?.[0]?.message?.content||'No response.';
+    area.innerHTML=`<div class="analyst-card" style="animation:up .4s ease both"><div class="analyst-title">✦ Analysis — with live market data</div><div class="analyst-text">${text}</div></div>`;
   }catch(e){area.innerHTML=`<div class="err-box">Network error. Please try again.</div>`;}
   document.getElementById('actions').style.display='flex';
   rb.disabled=false;rb.classList.remove('spin');updTime();
 }
 
-// AUTO LOGIN
+// ─── AUTO LOGIN ───────────────────────────────────────────────────────────────
 window.addEventListener('load',()=>{
   const saved=localStorage.getItem('mb_key');
   if(saved&&saved.startsWith('gsk_')){groqKey=saved;launchApp();}
