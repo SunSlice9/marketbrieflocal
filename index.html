@@ -358,7 +358,7 @@ async function fetchNews(){
   var data={market:mk.map(mapA),watchlist:wl.map(mapA)};
   nwC={data:data,ts:Date.now()};saveL("mb_nc",nwC);ss.gn="live";return data;
 }
-async function groq(prompt,maxT){
+async function groqRaw(prompt,maxT){
   var r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+keys.groq},body:JSON.stringify({model:"llama-3.3-70b-versatile",messages:[{role:"user",content:prompt}],temperature:0.25,max_tokens:maxT||2000})});
   if(!r.ok){var e=await r.json().catch(function(){return{};});throw{status:r.status,msg:(e.error&&e.error.message)||"Groq error"};}
   var d=await r.json();
@@ -366,6 +366,27 @@ async function groq(prompt,maxT){
   raw=raw.replace(/^```(?:json)?\s*/i,"").replace(/\s*```\s*$/,"").trim();
   var s=raw.indexOf("{"),e=raw.lastIndexOf("}");if(s!==-1&&e>s)raw=raw.slice(s,e+1);
   return JSON.parse(raw);
+}
+async function groq(prompt,maxT,retrying){
+  try{
+    return await groqRaw(prompt,maxT);
+  }catch(e){
+    if(e&&e.status===429&&!retrying){
+      // Option B: auto-retry after 65s on rate limit
+      var pl=document.getElementById("plbl");
+      if(pl)pl.textContent="Rate limit hit — auto-retrying in 65s...";
+      var ps=document.getElementById("psub");
+      if(ps)ps.textContent="Groq free tier: 6,000 tokens/min limit";
+      // countdown
+      for(var i=65;i>0;i--){
+        if(pl)pl.textContent="Rate limit — retrying in "+i+"s...";
+        await sleep(1000);
+      }
+      if(pl)pl.textContent="Retrying now...";
+      return await groq(prompt,maxT,true);
+    }
+    throw e;
+  }
 }
 function pcCtx(p){
   if(!p||!Object.keys(p).length)return "[No live price data]";
@@ -425,13 +446,13 @@ async function runLoad(force){
   ss={fh:"pending",gn:"pending",groq:"pending"};
   var rb=document.getElementById("rbtn");rb.disabled=true;rb.classList.add("spin");
   var area=document.getElementById("content");
-  area.innerHTML='<div class="lwrap"><div class="lring"></div><div class="pbwrap"><div class="pblbl" id="plbl">Connecting to Finnhub...</div><div class="pbbg"><div class="pbfill" id="pfill" style="width:0%"></div></div><div class="pbsub" id="psub">0 / 41 tickers</div></div><div class="lsl"><div class="lsi active" id="ls1"><div class="lsic active">1</div>Fetching live prices (Finnhub)...</div><div class="lsi" id="ls2"><div class="lsic">2</div>Fetching headlines (GNews)...</div><div class="lsi" id="ls3"><div class="lsic">3</div>AI scoring Priority 21 tickers...</div><div class="lsi" id="ls4"><div class="lsic">4</div>AI scoring Radar 14 tickers...</div><div class="lsi" id="ls5"><div class="lsic">5</div>Building dashboard...</div></div></div>';
-  function step(n){
-    for(var i=1;i<=5;i++){
+  area.innerHTML='<div class="lwrap"><div class="lring"></div><div class="pbwrap"><div class="pblbl" id="plbl">Connecting to Finnhub...</div><div class="pbbg"><div class="pbfill" id="pfill" style="width:0%"></div></div><div class="pbsub" id="psub">0 / 41 tickers</div></div><div class="lsl"><div class="lsi active" id="ls1"><div class="lsic active">1</div>Fetching live prices (Finnhub)...</div><div class="lsi" id="ls2"><div class="lsic">2</div>Fetching headlines (GNews)...</div><div class="lsi" id="ls3"><div class="lsic">3</div>AI scoring: Dashboard...</div><div class="lsi" id="ls4"><div class="lsic">4</div>AI scoring: Radar + Should Add...</div><div class="lsi" id="ls5"><div class="lsic">5</div>AI scoring: Watchlist tab...</div><div class="lsi" id="ls6"><div class="lsic">6</div>AI scoring: Macro + Trends...</div><div class="lsi" id="ls7"><div class="lsic">7</div>AI scoring: Risk + News + Events...</div><div class="lsi" id="ls8"><div class="lsic">8</div>Building all tabs...</div></div></div>';
+  function step(n,msg){
+    for(var i=1;i<=8;i++){
       var el=document.getElementById("ls"+i);if(!el)continue;
       var ic=el.querySelector(".lsic");
       if(i<n){el.className="lsi done";if(ic){ic.className="lsic done";ic.textContent="v";}}
-      else if(i===n){el.className="lsi active";if(ic){ic.className="lsic active";ic.textContent=String(i);}}
+      else if(i===n){el.className="lsi active";if(ic){ic.className="lsic active";ic.textContent=String(i);}if(msg){var pl=document.getElementById("plbl");if(pl)pl.textContent=msg;}}
       else{el.className="lsi";if(ic){ic.className="lsic";ic.textContent=String(i);}}
     }
   }
@@ -447,34 +468,87 @@ async function runLoad(force){
   step(2);
   var news=null;
   try{news=await fetchNews();}catch(e){ss.gn="failed";console.warn("GNews:",e);}
-  step(3);
+  step(3,"AI scoring: Dashboard...");
+  var pc=pcCtx(prices),nc=ncCtx(news),ic=icCtx(prices),rpc=rcCtx(prices);
   var dashData=null,radarData=null;
   var cached=aiC["dash"];
-  if(!force&&fresh(cached,CA)){dashData=cached.pri;radarData=cached.rad;ss.groq="cached";}
-  else{
-    var pc=pcCtx(prices),nc=ncCtx(news),ic=icCtx(prices),rpc=rcCtx(prices);
-    try{dashData=await groq(priPrompt(pc,nc,ic),6000);ss.groq="live";}
-    catch(e){
-      ss.groq="failed";
-      var msg="AI analysis unavailable. ";
-      if(e&&e.status===429)msg+="Groq rate limit hit — please wait 60 seconds and refresh.";
-      else if(e&&e.status===401)msg+="Check your Groq API key.";
-      else msg+=(e&&e.msg)||"Please refresh.";
-      area.innerHTML='<div class="ebox">'+msg+"</div>";
-      document.getElementById("acts").style.display="flex";
-      rb.disabled=false;rb.classList.remove("spin");renderSBar();return;
+
+  if(!force&&fresh(cached,CA)&&fresh(aiC["watchlist"],CA)&&fresh(aiC["macro"],CA)&&fresh(aiC["trends"],CA)&&fresh(aiC["risk"],CA)&&fresh(aiC["news"],CA)&&fresh(aiC["events"],CA)){
+    // All tabs cached — skip all Groq calls
+    dashData=cached.pri;radarData=cached.rad;ss.groq="cached";
+    step(8,"All tabs loaded from cache");
+  }else{
+    // ── STEP 3: Dashboard Priority ──
+    if(!force&&fresh(cached,CA)){
+      dashData=cached.pri;radarData=cached.rad;ss.groq="cached";
+    }else{
+      try{
+        dashData=await groq(priPrompt(pc,nc,ic),6000);
+        ss.groq="live";
+      }catch(e){
+        ss.groq="failed";
+        var msg="AI analysis unavailable. ";
+        if(e&&e.status===401)msg+="Check your Groq API key.";
+        else msg+=(e&&e.msg)||"Please refresh.";
+        area.innerHTML='<div class="ebox">'+msg+"</div>";
+        document.getElementById("acts").style.display="flex";
+        rb.disabled=false;rb.classList.remove("spin");renderSBar();return;
+      }
+
+      // ── STEP 4: Dashboard Radar ──
+      step(4,"AI scoring: Radar + Should Add...");
+      await sleep(12000);
+      try{radarData=await groq(radPrompt(rpc,nc),1500);}catch(e){console.warn("Radar:",e);}
+      aiC["dash"]={pri:dashData,rad:radarData,ts:Date.now()};saveL("mb_ac",aiC);
+
+      // ── STEP 5: Watchlist ──
+      step(5,"AI scoring: Watchlist tab...");
+      await sleep(12000);
+      if(!fresh(aiC["watchlist"],CA)){
+        try{var wld=await groq(TABS.watchlist+"\n\n"+pc,2500);aiC["watchlist"]={data:wld,ts:Date.now()};saveL("mb_ac",aiC);}catch(e){console.warn("Watchlist:",e);}
+      }
+
+      // ── STEP 6a: Macro ──
+      step(6,"AI scoring: Macro + Trends...");
+      await sleep(12000);
+      if(!fresh(aiC["macro"],CA)){
+        try{var macd=await groq(TABS.macro,2500);aiC["macro"]={data:macd,ts:Date.now()};saveL("mb_ac",aiC);}catch(e){console.warn("Macro:",e);}
+      }
+
+      // ── STEP 6b: Trends ──
+      await sleep(12000);
+      if(!fresh(aiC["trends"],CA)){
+        try{var trd=await groq(TABS.trends,2500);aiC["trends"]={data:trd,ts:Date.now()};saveL("mb_ac",aiC);}catch(e){console.warn("Trends:",e);}
+      }
+
+      // ── STEP 7a: Risk ──
+      step(7,"AI scoring: Risk + News + Events...");
+      await sleep(12000);
+      if(!fresh(aiC["risk"],CA)){
+        try{var rkd=await groq(TABS.risk,2500);aiC["risk"]={data:rkd,ts:Date.now()};saveL("mb_ac",aiC);}catch(e){console.warn("Risk:",e);}
+      }
+
+      // ── STEP 7b: News ──
+      await sleep(12000);
+      if(!fresh(aiC["news"],CA)){
+        try{var nwd=await groq(newsPrompt(news),1800);aiC["news"]={data:nwd,ts:Date.now()};saveL("mb_ac",aiC);}catch(e){console.warn("News:",e);}
+      }
+
+      // ── STEP 7c: Events ──
+      await sleep(12000);
+      if(!fresh(aiC["events"],CA)){
+        try{var evd=await groq(TABS.events,2500);aiC["events"]={data:evd,ts:Date.now()};saveL("mb_ac",aiC);}catch(e){console.warn("Events:",e);}
+      }
     }
-    step(4);
-    await sleep(12000);
-    try{radarData=await groq(radPrompt(rpc,nc),1500);}catch(e){console.warn("Radar Groq:",e);}
-    aiC["dash"]={pri:dashData,rad:radarData,ts:Date.now()};saveL("mb_ac",aiC);
+
+    step(8,"Building all tabs...");
   }
-  step(5);
+
   window._prices=prices;window._news=news;
-  if(dashData.priority_scores)dashData.priority_scores=dashData.priority_scores.map(function(s){s._p=prices[s.ticker]||null;return s;});
-  window._scores=dashData.priority_scores||[];
+  if(dashData&&dashData.priority_scores)dashData.priority_scores=dashData.priority_scores.map(function(s){s._p=prices[s.ticker]||null;return s;});
+  window._scores=(dashData&&dashData.priority_scores)||[];
   window._radar=radarData;
-  renderIBar(dashData.indices||[],prices);
+  renderIBar((dashData&&dashData.indices)||[],prices);
   renderSBar();
   renderTab("dashboard",{dash:dashData,rad:radarData});
   rb.disabled=false;rb.classList.remove("spin");updT();
@@ -482,8 +556,19 @@ async function runLoad(force){
 function switchTab(tab,btn){
   document.querySelectorAll(".ntab").forEach(function(b){b.classList.remove("active");});
   btn.classList.add("active");
-  if(tab==="dashboard"){var c=aiC["dash"];if(c&&fresh(c,CA))renderTab("dashboard",{dash:c.pri,rad:c.rad});else runLoad(false);}
-  else{var tc=aiC[tab];if(tc&&fresh(tc,CA))renderTab(tab,tc.data);else loadTab(tab);}
+  if(tab==="dashboard"){
+    var c=aiC["dash"];
+    if(c&&fresh(c,CA))renderTab("dashboard",{dash:c.pri,rad:c.rad});
+    else runLoad(false);
+  }else{
+    var tc=aiC[tab];
+    if(tc&&fresh(tc,CA)){
+      renderTab(tab,tc.data);
+    }else{
+      // Not cached yet — show loading and use single loadTab with retry
+      loadTab(tab);
+    }
+  }
 }
 async function loadTab(tab){
   var rb=document.getElementById("rbtn");rb.disabled=true;rb.classList.add("spin");
@@ -500,12 +585,12 @@ async function loadTab(tab){
     aiC[tab]={data:parsed,ts:Date.now()};saveL("mb_ac",aiC);
     renderTab(tab,parsed);
   }catch(e){
-    var m="Could not load. ";
-    if(e&&e.status===429)m+="Groq rate limit — wait 60s and retry.";
-    else if(e&&e.status===401)m+="Check your Groq API key.";
-    else if(e instanceof SyntaxError)m+="Could not parse AI response.";
-    else m+=(e&&e.msg)||"Please try again.";
-    area.innerHTML='<div class="ebox">'+m+"</div>";
+    var m="";
+    if(e&&e.status===429)m="Rate limit hit. The auto-retry waited 65s but still failed. Please wait 1 minute and click the tab again.";
+    else if(e&&e.status===401)m="Invalid Groq API key. Click Keys to re-enter.";
+    else if(e instanceof SyntaxError)m="Could not parse AI response. Please try the tab again.";
+    else m="Could not load tab. "+(e&&e.msg||"Please try again.");
+    area.innerHTML='<div class="ebox">'+m+'<br><br><button class="ab" onclick="loadTab(\''+tab+'\')">Retry this tab</button></div>';
     document.getElementById("acts").style.display="flex";
   }
   rb.disabled=false;rb.classList.remove("spin");updT();
