@@ -461,7 +461,7 @@ async function runFullLoad(forceRefresh){
   if(!forceRefresh&&isFresh(cached,CA)){dashData=cached.priority;radarData=cached.radar;srcStatus.groq='cached';}
   else{
     var pc=buildPC(prices),nc=buildNC(news),ic=buildIC(prices),rpc=buildRC(prices);
-    var results=await Promise.allSettled([groqCall(buildPP(pc,nc,ic),2500),groqCall(buildRP(rpc,nc),1200)]);
+    var results=await Promise.allSettled([groqCall(buildPP(pc,nc,ic),6000),groqCall(buildRP(rpc,nc),1200)]);
     if(results[0].status==='fulfilled'){dashData=results[0].value;srcStatus.groq='live';}
     else{srcStatus.groq='failed';console.warn('Priority groq failed:',results[0].reason);}
     if(results[1].status==='fulfilled')radarData=results[1].value;
@@ -505,7 +505,7 @@ async function loadTab(tab){
     if(tab==='watchlist')prompt=PROMPTS.watchlist+'\n\n'+buildPC(prices);
     else if(tab==='news')prompt=buildNewsPrompt(news);
     else prompt=PROMPTS[tab];
-    var parsed=await groqCall(prompt,tab==='news'?1800:2200);
+    var parsed=await groqCall(prompt,tab==='news'?1800:2800);
     aiCache[tab]={data:parsed,ts:Date.now()};saveLS('mb_ac',aiCache);
     renderTab(tab,parsed);
   }catch(e){
